@@ -1,36 +1,41 @@
 # Zadání semestrální práce
 Následuje shrnutí zadání semestrální práce, převzaté ze
-[stránek CourseWare předmětu KIV/WEB
-](https://courseware.zcu.cz/portal/studium/courseware/kiv/web/samostatna-prace/index.html)
+[stránek CourseWare předmětu KIV/WEB](https://courseware.zcu.cz/portal/studium/courseware/kiv/web/samostatna-prace/index.html).
+Pro vypracování byla zvolena jedna z [variant](https://courseware.zcu.cz/portal/studium/courseware/kiv/web/samostatna-prace/varianty_standard._zadani_sp.html) standardního zadání,
+konkrétně objednávkový systém.
 
 ## Požadavky
-* Kompletní webové stránky konference (téma libovolné)
+* Standardní zadání: Kompletní webové stránky konference (téma libovolné)
 * Povinně HTML5, CSS, PHP (architektura MVC), MySQL (nebo jiná databáze; použít PDO)
 * Volitelně šablony (Twig), JS, AJAX, Bootstrap
 * Vstupní soubor index.php dle parametrů URL provede akci (zavolá controller) a vypíše výstup uživateli
 * Ochrana proti XSS a SQL injection
 * Responzivní design
 * Databáze s alespoň 3 tabulkami s ukázkovými daty pro předvedení aplikace
-* Uživatelé:
-	* Nepřihlášený
-		* Vidí publikované příspěvky
-		* Může se registrovat jako autor
-	* Autor
-		* Vidí svoje příspěvky včetně stavu (recenze)
-		* Může přidávat příspěvky
-		* Může měnit a mazat své nepublikované příspěvky
-			* Případně i publikované příspěvky - ponecháno na tvůrci systému
-	* Recenzent
-		* Vidí příspěvky jemu přidělené k recenzi
-		* Může příspěvky hodnotit
-			* Minimálně 3 kritéria hodnocení
-		* Může měnit svá hodnocení nepublikovaných příspěvků
-			* U publikovaných nelze
-	* Administrátor
-		* Spravuje uživatele (role, blokování, mazání)
-		* Přiřazuje příspěvky recenzentům
-			* Minimálně 3 recenzenti pro každý příspěvek
-		* Publikuje příspěvky dle hodnocení recenzentů
+* Zadání možné upravit "k obrazu svému", ale musí být zachována složitost zadání:
+	* vždy minimálně 3+1 role uživatelů,
+	* 3 tabulky v databázi,
+	* upload souboru,
+	* smysluplný význam rolí
+## Uživatelé (Objednávkový systém)
+* Nepřihlášený
+	* Vidí seznam produktů
+	* Může se registrovat jako konzument nebo dodavatel
+		* Dodavatele musí schválit administrátor
+* Konzument
+	* Vidí seznam produktů
+	* Může produkty vkládat do košíku a ten následně objednat
+	* Vidí své historické objednávky, včetně produktů a data objednání
+* Dodavatel
+	* Může do systému vkládat produkty
+	* Vidí nevyřízené objednávky, které může označit za vyřízené
+* Administrátor
+	* Spravuje uživatele (role, blokování, mazání)
+	* Může upravit vše potřebné
+		* Kromě ostatních administrátorů
+* SuperAdmin
+	* Jako administrátor, ale může navíc spravovat administrátory
+	
 ## Odevzdání
 * Ideálně do vánoc
 * Osobní předvedení cvičícímu
