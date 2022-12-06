@@ -65,13 +65,14 @@ konkrétně objednávkový systém.
 		* Všechny další soubory potřebné k provozu dané webové aplikace.
 ## Hodnocení
 * Minimum 20 bodů z >60 možných (ke zkoušce se přenáší max. 60)
-* Povinně (20 - 29 bodů)
+* Povinně (14 - 29 bodů)
 	* MVC architektura - 8 bodů (s menšími chybami 4 body)
 	* Responzivní design - 5 bodů (s menšími chybami 3 body)
 	* Plně funkční web - 8 bodů (pouze demostrace - 3 body)
 	* Design: "normální" - 2 body, pěkný - 5 bodů, propracovaný - 8 bodů
+	* Šifrování hesel (Bcrypt) - 1 bod
+	* Ošetření útoků (SQL Injection, XSS) - 1 bod
 * Odevzdání do vánoc (do posledního cvičení) - 10 bodů
-* Šifrování hesel - 2 b.
 * SuperAdmin - admini se nemůžou ovlivňovat navzájem - 2b.
 * SuperAdmin může všechno - 2b.
 * Unikátní názvy souborů po uploadu - 1b.
