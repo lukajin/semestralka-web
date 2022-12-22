@@ -1,3 +1,5 @@
+use web;
+
 insert into uzivatel (login, heslo, jmeno, role) values
 ('tulak', '$2y$10$k7q4f2JdvbH..TjuCzumc.FRYecIuQBi59fR7oTIhYtlwRsjsRQAC', 'Pavel Tulach', 1),
 ('langra', '$2y$10$bMW2tIVEqKHS0oSwQii8D.gi/X61zKHHKKvTh3PU5SuCXXaxAu0SG', 'Andrea Langrová', 1),
