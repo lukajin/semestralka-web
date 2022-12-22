@@ -14,12 +14,17 @@ TODO
 ## Automatická instalace (Docker)
 Pro jednoduchou instalaci (i odinstalaci)
 aplikace lze použít [Docker](https://www.docker.com/).
-Tento postup byl použit při vývoji aplikace.
+Tento postup byl použit při vývoji aplikace a lze jej použít i pro provoz
+jiných, podobně strukturovaných webových aplikací.
 
 Následující kroky předpokládají
 [nainstalované](https://docs.docker.com/engine/install/)
 a funkční běhové prostředí Docker (verze 20.10 nebo novější)
-a možnost jej ovládat příkazovou řádkou. Další software není potřeba.
+a možnost jej ovládat příkazovou řádkou.
+Během sestavování obrazu (viz dále) je potřeba internetové připojení
+pro stažení balíků webového a databázového serveru
+(stáhne se přibližně 60 MB dat).
+Další software není potřeba.
 
 ...TODO
 
