@@ -56,13 +56,17 @@ Require all granted
 </Directory>
 ```
 
-* V databázovém serveru nainstalovat skripty z adresáře `dbinst`.
+* V databázovém serveru importovat skripty z adresáře `dbsetup`.
 Pro jiný DBMS než MySQL/MariaDB může být potřeba skripty upravit
 kvůli odlišnostem v podporované syntaxi jazyka SQL.
-  * `1_schema.sql` - Vytvoří databázi s názvem `web` a v ní potřebné tabulky.
-     (Vzhledem k oprávněním a jiným okolnostem může být vhodné
-     použít jiné jméno databáze či již existující databázi.)
-  * `2_data.sql` - Naplní tabulky testovacími daty.
+Dále může být vhodné skripty upravit s ohledem na místní prostředí,
+zejména změnit jméno uživatele či databáze či použít existující.
+  * `1_setup.sql` - Založí databázi s názvem `web` a stejnojmenného uživatele,
+  který bude mít při přístupu z místního stroje (`localhost`) plná
+  oprávnění k této databázi.
+  * `2_schema.sql` - Vytvoří v databázi `web` potřebné tabulky
+  a naplní tabulku se seznamem rolí uživatelů.
+  * `3_data.sql` - Naplní tabulky databáze `web` testovacími daty.
   (Lze vynechat, není-li toto žádoucí.)
   
 
