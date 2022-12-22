@@ -39,6 +39,10 @@ if test ! -f /var/lib/mysql/ibdata1 # database not set up = first start
 then
     mariadb-install-db --user=mysql --ldata=/var/lib/mysql
     mysqld_safe --user=mysql &
+    while ! mysqladmin ping --silent
+    do
+        sleep 1
+    done
     mysql <<EOS
         delete from mysql.global_priv where User='';
         --drop database if exists test;
