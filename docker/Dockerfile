@@ -2,10 +2,9 @@
 FROM alpine:3.17
 
 RUN <<EOF
-# install Apache, MariaDB, PHP
-apk --no-cache add mariadb mariadb-client apache2 apache2-utils php81-apache2 \
-php81-ctype php81-curl php81-pdo_mysql php81-iconv php81-session \
-php81-intl php81-opcache
+# install Apache, MariaDB, PHP + Composer
+apk --no-cache add mariadb mariadb-client apache2 php81-apache2 \
+php81-pdo_mysql php81-session php81-intl php81-opcache composer
 
 # fancy shell prompt like root@<container-id>:/$ instead of just '/ #' (run 'sh -l')
 cat <<EOI >/etc/profile.d/prompt.sh
@@ -39,6 +38,11 @@ if test ! -f /var/lib/mysql/ibdata1 # database not set up = first start
 then
     mariadb-install-db --user=mysql --ldata=/var/lib/mysql
     mysqld_safe --user=mysql &
+    if test -f /web/composer.json
+    then
+        cd /web
+        composer --no-cache install
+    fi
     while ! mysqladmin ping --silent
     do
         sleep 1
@@ -51,7 +55,7 @@ then
 EOS
     for f in /web/dbsetup/*.sql
     do
-        mysql < $f
+        mysql < \$f
     done
 else
     mysqld_safe --user=mysql
