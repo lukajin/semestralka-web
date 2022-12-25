@@ -61,6 +61,8 @@ funkční webový a databázový server (produkční server či
 vývojový balík jako např. [EasyPHP](https://www.easyphp.org/)
 či [XAMPP](https://www.apachefriends.org/))
 a schopnost tento konfigurovat.
+Dále je potřeba nástroj [Composer](https://getcomposer.org/) pro instalaci
+šablonovacího systému Twig.
 
 Doporučenou kombinací softwaru je opět Apache (díky jeho dobré podpoře jazyka
 PHP) a MySQL/MariaDB (pro který jsou napsány instalační skripty).
@@ -95,6 +97,16 @@ zejména změnit jméno uživatele či databáze či použít existující.
   * `3_data.sql` - Naplní tabulky databáze `web` testovacími daty.
   (Lze vynechat, není-li toto žádoucí.)
   
+* V adresáři projektu nástojem Composer nainstalovat potřebné závislosti
+    * Je-li vše správně nainstalováno, stačí použít příkaz `composer install`.
+    * Pokud příkaz `composer` není znám, pak je nutné vyhledat
+    (či [stáhnout](https://github.com/composer/composer/releases))
+    jeho hlavní soubor `composer.phar`
+    a použít příkaz `php cesta/k/souboru/composer.phar install`
+    * Pokud není znám příkaz `php`:
+    je nutné najít jeho spouštěcí soubor (`php` či `php.exe`),
+    případně jej [stáhnout](https://www.php.net/downloads.php)
+    a použít v příkazu výše namísto `php` úplnou cestu.
 
 
 * Upravit přístupové údaje k databázovému serveru v souboru `config.php`
