@@ -15,6 +15,8 @@ create table uzivatel (
     jmeno varchar(64),
     login varchar(32),
     heslo char(60),
+    povolen char(1) default 'A',
+    constraint ck_uzivatel_povolen check (povolen in ('A','N')),
     constraint fk_uzivatel_role foreign key (role) references role(id)
 );
 create table prispevek (
