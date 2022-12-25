@@ -6,10 +6,36 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
 [na stránkách CourseWare předmětu KIV/WEB](https://courseware.zcu.cz/portal/studium/courseware/kiv/web/samostatna-prace/index.html).
 
 ## Dílčí části práce
-TODO
+- [x] Kostra aplikace - index.php, databáze, session, Twig
+- [x] Přihlašování a odhlašování uživatelů
+- [ ] Vymyslet téma konference
+- [ ] Navrhnout design stránek
+- [ ] Obsah domovské stránky
+- [ ] Plně responzivní stránky
+- [ ] Zobrazení seznamu publikovaných příspěvků
+- [ ] Zobrazení příspěvků
+- [ ] Vytváření a úprava příspěvků (autoři)
+- [ ] Recenze (recenzenti)
+- [ ] Schvalování příspěvků (admini)
+- [ ] Registrace uživatele
+- [ ] Správa uživatelů (admini)
+- [ ] Kompletní testovací data
+- [ ] Kompletní postup instalace (Docker i ruční)
+- [ ] Dokumentace
 
 ## Struktura adresářů
-TODO
+* Kořenový adresář - organizační soubory
+* `app` - PHP skripty aplikace
+	* `actions` - skripty akcí (přihlášení, jakékoli změny dat v databázi)
+	* `pages` - dodatečné akce související se zobrazením konkrétních stránek
+	* Třídy zprostředkující práci s databází (`database.php`)
+        a session (`session.php`)
+* `dbsetup` - skripty pro instalaci databáze
+* `docker` - skript pro automatické zprovoznění aplikace pomocí Dockeru (viz dále)
+* `pages` - šablony stránek (Twig)
+* `public` - kořenová složka webového serveru (tzv. document root)
+    * `index.php` - vstupní bod aplikace
+* `vendor` (není distribuován) - komponenty stažené přes Composer (Twig)
 
 ## Automatická instalace (Docker)
 Pro jednoduchou instalaci (i odinstalaci)
