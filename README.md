@@ -10,15 +10,18 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
 - [x] Přihlašování a odhlašování uživatelů
 - [ ] Vymyslet téma konference
 - [ ] Navrhnout design stránek
-- [ ] Obsah domovské stránky
+- [ ] Části webu
+    - [ ] Domovská stránka
+    - [ ] Publikované příspěvky
+    - [ ] Zobrazení příspěvku
+    - [ ] Autor - Moje příspěvky
+    - [ ] Autor - Vytvoření/úprava příspěvku
+    - [ ] Recenzent - Recenze
+    - [ ] Admin - Schvalování příspěvků
+    - [ ] Admin - Správa uživatelů
+    - [ ] Registrace uživatele
+    - [ ] Úprava profilu uživatele
 - [ ] Plně responzivní stránky
-- [ ] Zobrazení seznamu publikovaných příspěvků
-- [ ] Zobrazení příspěvků
-- [ ] Vytváření a úprava příspěvků (autoři)
-- [ ] Recenze (recenzenti)
-- [ ] Schvalování příspěvků (admini)
-- [ ] Registrace uživatele
-- [ ] Správa uživatelů (admini)
 - [ ] Kompletní testovací data
 - [ ] Kompletní postup instalace (Docker i ruční)
 - [ ] Dokumentace
