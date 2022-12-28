@@ -1,7 +1,5 @@
 {% macro navlink(current_page, name, title) %}
-<li class="nav-item">
   <a class="nav-link{% if current_page == name %} active{% endif %}" href="?p={{name}}">{{title}}</a>
-</li>
 {% endmacro %}
 <!doctype html>
 <html lang="cs">
@@ -17,10 +15,14 @@
     crossorigin="anonymous">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark container-fluid">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark container-fluid">
     <a class="navbar-brand" href="?p={{default_page}}">Konference</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="div.collapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav me-auto">
         {{ _self.navlink(current_page,'home','Hlavní stránka') }}
         {{ _self.navlink(current_page,'posts','Příspěvky') }}
         {% if user %}
@@ -32,27 +34,30 @@
           {% else %}
             {{ _self.navlink(current_page,'myposts','Moje příspěvky') }}
           {% endif %}
-          {{ _self.navlink(current_page,'profile','Můj účet') }}
         {% elseif current_page != 'register' %}
           {# pp = predchozi stranka pro navrat po registraci #}
           {{_self.navlink(current_page, "register&pp="~current_page, 'Registrace')}}
         {% else %}
           {# zabranit situaci /?p=register&pp=register #}
-          <li class="nav-link">Registrace</li>
+          <li class="nav-link active">Registrace</li>
         {% endif %}
       </ul>
-    </div>
-    <div class="me-auto">
       {% if user %}
-        <form action="?p={{current_page}}" method="post">
-          <input type="hidden" name="a" value="logout">
+      <ul class="navbar-nav">
+        <div class="navbar-item">
           {# SVG ikona: https://icons.getbootstrap.com/icons/person-fill/ #}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
           </svg>
           {{ user.jmeno }}
-          <input type="submit" value="Odhlásit">
+        </div>
+        {{ _self.navlink(current_page,'profile','Můj účet') }}
+        <form action="?p={{current_page}}" method="post">
+          <input type="hidden" name="a" value="logout">
+          {# https://stackoverflow.com/a/4286493 #}
+          <input class="nav-link" type="submit" value="Odhlásit">
         </form>
+      </ul>
       {% else %}
         <form action="?p={{current_page}}" method="post">
           <input type="hidden" name="a" value="login">
@@ -63,9 +68,11 @@
       {% endif %}
     </div>
   </nav>
+  <main class="container">
 {% block content %}
 Žádný obsah
 {% endblock %}
+  </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
       crossorigin="anonymous">

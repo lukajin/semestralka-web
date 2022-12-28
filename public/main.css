@@ -1,3 +1,10 @@
 .navbar{
     color: #fff;
 }
+input.nav-link{
+    border: none;
+    background: none;
+}
+.navbar-item{
+    padding: .5rem 0;
+}
