@@ -8,3 +8,6 @@ input.nav-link{
 .navbar-item{
     padding: .5rem 0;
 }
+input{
+    display: block;
+}

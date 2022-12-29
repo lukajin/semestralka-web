@@ -34,16 +34,10 @@
           {% else %}
             {{ _self.navlink(current_page,'myposts','Moje příspěvky') }}
           {% endif %}
-        {% elseif current_page != 'register' %}
-          {# pp = predchozi stranka pro navrat po registraci #}
-          {{_self.navlink(current_page, "register&pp="~current_page, 'Registrace')}}
-        {% else %}
-          {# zabranit situaci /?p=register&pp=register #}
-          <li class="nav-link active">Registrace</li>
         {% endif %}
       </ul>
-      {% if user %}
       <ul class="navbar-nav">
+      {% if user %}
         <div class="navbar-item">
           {# SVG ikona: https://icons.getbootstrap.com/icons/person-fill/ #}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
@@ -57,15 +51,30 @@
           {# https://stackoverflow.com/a/4286493 #}
           <input class="nav-link" type="submit" value="Odhlásit">
         </form>
-      </ul>
-      {% else %}
-        <form action="?p={{current_page}}" method="post">
-          <input type="hidden" name="a" value="login">
-          Login: <input type="text" name="user">
-          Heslo: <input type="password" name="password">
-          <input type="submit" value="Přihlásit">
-        </form>
+      {% else %} {# = not user #}
+        <li class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+            data-bs-toggle="dropdown">
+            Přihlášení
+          </a>
+          <div class="dropdown-menu">
+            <form action="?p={{current_page}}" method="post">
+              <input type="hidden" name="a" value="login">
+              Login: <input type="text" name="user">
+              Heslo: <input type="password" name="password">
+              <input type="submit" value="Přihlásit">
+            </form>
+          </div>
+        </li>
+        {% if current_page != 'register' %}
+          {# pp = predchozi stranka pro navrat po registraci #}
+          {{_self.navlink(current_page, "register&pp="~current_page, 'Registrace')}}
+        {% else %}
+          {# zabranit situaci /?p=register&pp=register #}
+          <li class="nav-link active">Registrace</li>
+        {% endif %}
       {% endif %}
+      </ul>
     </div>
   </nav>
   <main class="container">
