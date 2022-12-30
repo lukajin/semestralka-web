@@ -8,8 +8,7 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
 ## Dílčí části práce
 - [x] Kostra aplikace - index.php, databáze, session, Twig
 - [x] Přihlašování a odhlašování uživatelů
-- [ ] Vymyslet téma konference
-- [ ] Navrhnout design stránek
+- [X] Vymyslet téma konference: **Dejme životu zelenou!** - udržitelnost životního prostředí
 - [ ] Části webu
     - [ ] Domovská stránka
     - [ ] Publikované příspěvky

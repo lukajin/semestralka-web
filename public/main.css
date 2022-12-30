@@ -1,5 +1,36 @@
 .navbar{
     color: #fff;
+    background-color: #180;
+}
+@media (min-width: 768px) {
+    .logo {
+        width: 100%;
+    }
+    .navbar-expand-md {
+        flex-wrap: wrap;
+    }
+}
+a.logo {
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    font-style: italic;
+    color: #cf0;
+    font-size: .75em;
+    line-height: 1.5em;
+}
+.logo img {
+	filter: drop-shadow(.5pt .5pt 0 #fff);
+    height: 2.5em;
+    margin: .125em .5em 0 0;
+}
+.logo > div > :first-child {
+	font-size: 1.5em;
+	text-align: center;
+	color: #71d400;
+	font-weight: bold;
 }
 input.nav-link{
     border: none;
