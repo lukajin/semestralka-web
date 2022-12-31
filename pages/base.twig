@@ -66,8 +66,8 @@
           <div class="dropdown-menu">
             <form action="?p={{current_page}}" method="post">
               <input type="hidden" name="a" value="login">
-              Login: <input type="text" name="user">
-              Heslo: <input type="password" name="password">
+              Login: <input type="text" name="user" required>
+              Heslo: <input type="password" name="password" required>
               <input type="submit" value="Přihlásit">
             </form>
           </div>
@@ -84,6 +84,16 @@
     </div>
   </nav>
   <main class="container">
+  {% if status.alert %}
+  <div class="alert alert-{{status.alert.class}}
+      {{status.alert.dismissible ? 'alert-dismissible' : ''}}
+      fade show" role="alert">
+    {{status.alert.message}}
+    {% if status.alert.dismissible %}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {% endif %}
+  </div>
+{% endif %}
 {% block content %}
 Žádný obsah
 {% endblock %}
