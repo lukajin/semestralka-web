@@ -26,7 +26,7 @@ class Session{
         $userinfo = $this->db->query(
             "select id,role,login,heslo,jmeno,povolen from uzivatel",
             ["login" => $login]);
-        if(!$userinfo || !is_array($userinfo) || $userinfo[0].povolen == 'N'){
+        if(!$userinfo || !is_array($userinfo) || $userinfo[0]['povolen'] == 'N'){
             return false;
         }
         $userinfo = $userinfo[0];
