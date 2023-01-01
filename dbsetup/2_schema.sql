@@ -11,14 +11,15 @@ insert into role (id, nazev) values
 (3, 'Autor');
 create table uzivatel (
     id integer primary key auto_increment,
-    role smallint not null,
+    role smallint not null default 3,
     jmeno varchar(64),
-    login varchar(32),
+    login varchar(32) not null unique,
     heslo char(60),
     povolen char(1) default 'A',
     constraint ck_uzivatel_povolen check (povolen in ('A','N')),
     constraint fk_uzivatel_role foreign key (role) references role(id)
 );
+create index idx_uzivatel_login on uzivatel(login);
 create table prispevek (
     id integer primary key auto_increment,
     autor integer not null,
