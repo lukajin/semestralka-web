@@ -24,7 +24,7 @@ if(isset($_POST['a'])
     && preg_match(SAFE_NAME_REGEX, $action = $_POST['a'])
     && file_exists($action_script = APP_DIR."actions/$action.php")){
     require_once $action_script;
-    $status = $action($session,$_POST);
+    $status = $action($session);
 }
 
 if(isset($status["redirect"])){
@@ -46,7 +46,7 @@ else if(!file_exists(PAGES_DIR.$page.PAGES_EXT)){
 // Provést akce specifické pro danou stránku (nemusí existovat - to je taky OK)
 if(file_exists($page_script = APP_DIR."pages/$page.php")){
     require_once $page_script;
-    $data = 'page_'.$page($_GET);
+    $data = 'page_'.$page();
 }
 
 // Vlastní vykreslení stránky

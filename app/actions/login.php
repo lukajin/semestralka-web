@@ -1,6 +1,6 @@
 <?php
-function login($session,$data){
-    if(!$session->login($data['user'],$data['password'])){
+function login($session){
+    if(!$session->login($_POST['user'] ?? null, $_POST['password'] ?? null)){
         return ['alert' => [
             'class' => 'danger',
             'message' => 'Přihlášení se nezdařilo: neplatné uživatelské jméno nebo heslo.',
