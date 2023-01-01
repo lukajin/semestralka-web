@@ -47,13 +47,14 @@ else if(!file_exists(PAGES_DIR.$page.PAGES_EXT)){
 // Provést akce specifické pro danou stránku (nemusí existovat - to je taky OK)
 if(file_exists($page_script = APP_DIR."pages/$page.php")){
     require_once $page_script;
-    $data = 'page_'.$page();
+    $data = 'page_'.$page($_GET);
 }
 
 // Vlastní vykreslení stránky
 $pdata = [
     'default_page'=>PAGE_DEFAULT,
-    'current_page'=>$page,
+    'current_page'=>isset($_GET['p']) ? $_GET['p'] : PAGE_DEFAULT,
+    'return_page'=>isset($_GET['pp']) ? $_GET['pp'] : PAGE_DEFAULT,
     'user'=>$session->user_info(),
     'status'=>$status,
     'data'=>$data
