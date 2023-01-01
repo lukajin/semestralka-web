@@ -27,12 +27,15 @@ if(isset($_POST['a'])
     $status = $action($session,$_POST);
 }
 
+if(isset($status["redirect"])){
+    $page = $status["redirect"];
+}
 /* Jaká stránka se zobrazí při chybových stavech?
     isset -> !empty -> "safe" -> exists -> OK
       |        v         |         v
       \---> DEFAULT <----/     NOT_FOUND
 */
-if(!isset($_GET['p'])
+else if(!isset($_GET['p'])
     || empty($page = $_GET['p'])
     || !preg_match(SAFE_NAME_REGEX, $page)){
     $page = PAGE_DEFAULT;
