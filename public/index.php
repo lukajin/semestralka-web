@@ -35,9 +35,8 @@ if(isset($status["redirect"])){
       |        v         |         v
       \---> DEFAULT <----/     NOT_FOUND
 */
-else if(!isset($_GET['p'])
-    || empty($page = $_GET['p'])
-    || !preg_match(SAFE_NAME_REGEX, $page)){
+else if(empty($_GET['p'])
+    || !preg_match(SAFE_NAME_REGEX, $page = $_GET['p'])){
     $page = PAGE_DEFAULT;
 }
 else if(!file_exists(PAGES_DIR.$page.PAGES_EXT)){
@@ -53,8 +52,8 @@ if(file_exists($page_script = APP_DIR."pages/$page.php")){
 // Vlastní vykreslení stránky
 $pdata = [
     'default_page'=>PAGE_DEFAULT,
-    'current_page'=>isset($_GET['p']) ? $_GET['p'] : PAGE_DEFAULT,
-    'return_page'=>isset($_GET['pp']) ? $_GET['pp'] : PAGE_DEFAULT,
+    'current_page'=>$_GET['p'] ?? $page,
+    'return_page'=>$_GET['pp'] ?? PAGE_DEFAULT,
     'user'=>$session->user_info(),
     'status'=>$status,
     'data'=>$data
