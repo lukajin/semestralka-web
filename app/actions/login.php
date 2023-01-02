@@ -7,5 +7,9 @@ function login($session){
             'dismissible' => true
         ]];
     }
+    if(isset($_GET["p"]) && $_GET["p"] == 'register'){
+        unset($_GET['p']);
+        return ['redirect' => PAGE_DEFAULT];
+    }
 }
 ?>
