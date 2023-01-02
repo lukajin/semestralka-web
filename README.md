@@ -18,12 +18,13 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
     - [ ] Recenzent - Recenze
     - [ ] Admin - Schvalování příspěvků
     - [ ] Admin - Správa uživatelů
-    - [ ] Registrace uživatele
+    - [X] Registrace uživatele
     - [ ] Úprava profilu uživatele
 - [ ] Plně responzivní stránky
 - [ ] Kompletní testovací data
 - [ ] Kompletní postup instalace (Docker i ruční)
 - [ ] Dokumentace
+- [ ] Po dokončení zakázat výpisy chyb do stránky
 
 ## Struktura adresářů
 * Kořenový adresář - organizační soubory

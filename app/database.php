@@ -72,5 +72,33 @@ class Database{
         }
         return $q->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Vloží záznam do databáze
+     * @param string $table Název tabulky pro vložení dat
+     * @param array $values Pole hodnot pro vložení do tabulky,
+     * kde název sloupce je klíč pole (tj. např ["cislo" => 10]).
+     * Předané hodnoty jsou chráněny proti SQL Injection,
+     * názvy tabulky a sloupců ale nikoliv!
+     * @return bool true při úspěchu, false při chybě
+     */
+    public function insert($table, $values){
+        if(!$this->pdo && !$this->connect()){
+            echo "Database connection failed";
+            return false;
+        }
+        $sql = "insert into $table (";
+        $sqlval = ") values (";
+        foreach($values as $key => $value){
+            $sql .= "$key,";
+            $sqlval .= ":$key,";
+        }
+        $q = $this->pdo->prepare(
+            // odstranit poslední čárky přidané v cyklu výše
+            substr($sql, 0, strlen($sql) - 1)
+            . substr($sqlval, 0, strlen($sqlval) - 1) . ");"
+        );
+        return $q && $q->execute($values);
+    }
 }
 ?>

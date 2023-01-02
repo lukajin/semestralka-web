@@ -8,7 +8,7 @@ require_once APP_DIR.'database.php';
 require_once APP_DIR.'session.php';
 
 // Pro odchycení útoků využívajících speciální znaky v názvu požadované stránky
-define('SAFE_NAME_REGEX', '/^[a-z\-\_]+$/i');
+define('SAFE_NAME_REGEX', '/^[0-9A-Za-z\-\_]+$/i');
 
 $db = new Database(DB_DSN, DB_USER, DB_PASS);
 $session = new Session($db);

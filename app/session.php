@@ -55,5 +55,29 @@ class Session{
         }
         else return false;
     }
+
+    /**
+     * Zjistí, zda je dané uživatelské jméno dostupné pro registraci.
+     */
+    public function is_username_available($login){
+        return empty($this->db->query("select id from uzivatel",
+            ["login" => $login]));
+    }
+
+    /**
+     * Zaregistruje nového uživate a při úspěchu jej přihlásí
+     * a vrátí informace o něm.
+     * Dojde-li k chybě, vrací false.
+     */
+    public function register($name, $login, $password){
+        if(!$this->db->insert("uzivatel",[
+            "jmeno" => $name,
+            "login" => $login,
+            "heslo" => password_hash($password, PASSWORD_BCRYPT)
+        ])){
+            return false;
+        }
+        return $this->login($login, $password);
+    }
 }
 ?>

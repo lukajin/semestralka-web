@@ -2,6 +2,66 @@
 
 {% block title %}Registrace{% endblock %}
 
+{% macro input_args(type, name, status) %}
+class="form-control{{status[name].invalid ? ' is-invalid' : ''}}"
+type="{{type}}" id="reg-{{name}}" name="{{name}}" required placeholder=" "
+{{(status[name].value ? 'value="'~(status[name].value|e('html_attr'))~'"')|raw}}
+{% endmacro %}
+
 {% block content %}
-    
+{% if user %}
+<div class="alert alert-danger" role="alert">
+  Již jste přihlášeni.
+</div>
+{% else %}
+<form id="register-form" class="formbox" action="?p={{return_page}}" method="post">
+  <input type="hidden" name="a" value="register">
+  Registrace
+  {#
+  validace:
+  file:///r/bootstrap-offline-docs-5.1/forms/validation/index.html
+  https://getbootstrap.com/docs/5.1/forms/validation/
+  https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
+  formular:
+  https://mdbootstrap.com/docs/standard/extended/login/
+  https://getbootstrap.com/docs/5.1/forms/floating-labels/
+  formular jako v ukazce:
+  file:///r/bootstrap-offline-docs-5.1/forms/input-group/index.html
+    #}
+  <div class="form-floating mt-3">
+    <input {{_self.input_args("text", "jmeno", status)}}
+      {#pattern=".+ .+"#} maxlength="64">
+    <label>Celé jméno:</label>
+    <div class="invalid-feedback">Zadejte celé jméno a příjmení</div>
+  </div>
+
+  <div class="form-floating mt-3">
+    <input {{_self.input_args("text", "login", status)}}
+      {#pattern="[0-9A-Za-z\-\_]*"#} maxlength="32">
+    <label>Přihlašovací jméno (login):</label>
+    <div class="invalid-feedback">
+      <div{{status.login.used ? '' : ' class="d-none"'}}>
+      Jméno &quot;<span>{{status.login.value}}</span>&quot; je již obsazené. Zvolte jiné.
+      </div>
+      <div{{status.login.used ? ' class="d-none"' : ''}}>
+      Login může obsahovat pouze velká a malá písmena latinské abecedy (A-Z, a-z),
+      arabské číslice (0-9), pomlčku (-) a podtržítko (_).
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating mt-3">
+    <input {{_self.input_args("password", "heslo", status)}}>
+    <label>Heslo:</label>
+  </div>
+
+  <div class="form-floating mt-3">
+    <input {{_self.input_args("password", "heslo2", status)}}>
+    <label>Heslo znovu pro potvrzení:</label>
+    <div class="invalid-feedback">Hesla se neshodují!</div>
+  </div>
+  <input class="mt-3" type="submit" value="Registrovat se">
+</form>
+{% endif %}{# endif user #}
+
 {% endblock %}

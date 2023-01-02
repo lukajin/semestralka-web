@@ -47,3 +47,8 @@ input.nav-link{
 input{
     display: block;
 }
+.formbox{
+    max-width: 22em;
+    margin-left: auto;
+    margin-right: auto;
+}
