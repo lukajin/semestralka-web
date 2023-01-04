@@ -24,7 +24,9 @@ class Session{
      */
     public function login($login,$password){
         $userinfo = $this->db->query(
-            "select id,role,login,heslo,jmeno,povolen from uzivatel",
+            "select uzivatel.id, role as roleid,
+            role.nazev as role, login, jmeno, heslo, povolen
+            from uzivatel left join role on role = role.id",
             ["login" => $login]);
         if(!$userinfo || !is_array($userinfo) || $userinfo[0]['povolen'] == 'N'){
             return false;
@@ -50,10 +52,7 @@ class Session{
      * @return array|false 
      */
     public function user_info(){
-        if(isset($_SESSION["user"])){
-            return $_SESSION["user"];
-        }
-        else return false;
+        return $_SESSION["user"] ?? false;
     }
 
     /**
@@ -78,6 +77,27 @@ class Session{
             return false;
         }
         return $this->login($login, $password);
+    }
+
+    /**
+     * Získá informace o všech uživatelích nebo o uživateli s daným ID
+     * @param number $id ID uživatele (vynecháno nebo null -> všichni uživatelé)
+     * @return array|false
+     */
+    public function query_user_info($id = null){
+        $res = $this->db->query(
+            "select uzivatel.id, role as roleid,
+            role.nazev as role, login, jmeno, povolen
+            from uzivatel left join role on role = role.id",
+            isset($id) ? ["uzivatel.id" => $id] : null);
+        return (isset($id) && !empty($res)) ? $res[0] : $res;
+    }
+
+    public function update_user($id, $target_role_check, $field, $value){
+        return $this->db->query(
+            "update uzivatel set $field = :value",
+            ["id" => $id, "role" => $target_role_check],
+            ["value" => $value]);
     }
 }
 ?>

@@ -5,7 +5,7 @@
 {% macro input_args(type, name, status) %}
 class="form-control{{status[name].invalid ? ' is-invalid' : ''}}"
 type="{{type}}" id="reg-{{name}}" name="{{name}}" required placeholder=" "
-{{(status[name].value ? 'value="'~(status[name].value|e('html_attr'))~'"')|raw}}
+{{(status[name].value ? 'value="'~(status[name].value|e('html_attr'))~'"':'')|raw}}
 {% endmacro %}
 
 {% block content %}
@@ -16,7 +16,7 @@ type="{{type}}" id="reg-{{name}}" name="{{name}}" required placeholder=" "
 {% else %}
 <form id="register-form" class="formbox" action="?p={{return_page}}" method="post">
   <input type="hidden" name="a" value="register">
-  Registrace
+  <h1>Registrace</h1>
   {#
   validace:
   file:///r/bootstrap-offline-docs-5.1/forms/validation/index.html

@@ -8,7 +8,7 @@ require_once APP_DIR.'database.php';
 require_once APP_DIR.'session.php';
 
 // Pro odchycení útoků využívajících speciální znaky v názvu požadované stránky
-define('SAFE_NAME_REGEX', '/^[0-9A-Za-z\-\_]+$/i');
+const SAFE_NAME_REGEX = '/^[0-9A-Za-z\-\_]+$/i';
 
 $db = new Database(DB_DSN, DB_USER, DB_PASS);
 $session = new Session($db);
@@ -46,7 +46,7 @@ else if(!file_exists(PAGES_DIR.$page.PAGES_EXT)){
 // Provést akce specifické pro danou stránku (nemusí existovat - to je taky OK)
 if(file_exists($page_script = APP_DIR."pages/$page.php")){
     require_once $page_script;
-    $data = 'page_'.$page();
+    $data = ('page_'.$page)($session);
 }
 
 // Vlastní vykreslení stránky

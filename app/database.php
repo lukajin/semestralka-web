@@ -41,33 +41,38 @@ class Database{
      * kde název sloupce je klíč pole (tj. např ["cislo" => 10]).
      * Všechny podmínky musí být splněny současně, disjunkce není podporována.
      * Omezení nerovností (např. id>=10) tento parametr rovněž neumožňuje.
-     * Předané podmínky jsou chráněny proti SQL Injection.
+     * Předané hodnoty jsou chráněny proti SQL Injection, názvy sloupců ale ne.
      * Je-li tento parametr použit, nesmí se ve vlastním SQL dotazu (1. parametr)
      * vyskytovat klauzule 'where' ani nesmí být SQL dotaz ukončen středníkem.
      * Nejsou-li tyto podmínky dodrženy, jinak platný SQL dotaz může
      * po zpracování obsahovat syntaktické chyby nebo vrátit nesprávné výsledky.
-     * @return array asociativní pole výsledků (viz PDOStatement::fetchAll)
+     * @param array $params Dodatečné parametry (["parametr" => hodnota]),
+     * zadané v SQL dotazu jako ":parametr".
+     * Zadané hodnoty jsou chráněny proti SQL injekci.
+     * Nejsou-li uvedeny podmínky ($cond), tyto parametry se nepoužijí!
+     * @return array|false asociativní pole výsledků (viz PDOStatement::fetchAll)
      * nebo false pokud došlo k chybě
      */
-    public function query($sql, $cond=[]){
+    public function query($sql, $cond=[], $params=[]){
         if(!$this->pdo && !$this->connect()){
-            echo "Database connection failed";
             return false;
         }
         if($cond){
             $sql .= ' where ';
             foreach($cond as $key => $value){
-                $sql .= "$key = :$key and ";
+                $param = str_replace(".", "_", $key);
+                $params[$param] = $value;
+                $sql .= "$key = :$param and ";
             }
             $q = $this->pdo->prepare(
                 // odstranit poslední "and" přidané výše, včetně mezer kolem
                 substr($sql, 0, strlen($sql) - 5) . ";"
             );
-            if($q == false || !$q->execute($cond)){
+            if($q === false || !$q->execute($params)){
                 return false;
             }
         } 
-        else if(($q = $this->pdo->query($sql)) == false){
+        else if(($q = $this->pdo->query($sql)) === false){
             return false;
         }
         return $q->fetchAll(PDO::FETCH_ASSOC);
@@ -84,7 +89,6 @@ class Database{
      */
     public function insert($table, $values){
         if(!$this->pdo && !$this->connect()){
-            echo "Database connection failed";
             return false;
         }
         $sql = "insert into $table (";

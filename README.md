@@ -17,11 +17,13 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
     - [ ] Autor - Vytvoření/úprava příspěvku
     - [ ] Recenzent - Recenze
     - [ ] Admin - Schvalování příspěvků
-    - [ ] Admin - Správa uživatelů
+    - [X] Admin - Správa uživatelů
     - [X] Registrace uživatele
-    - [ ] Úprava profilu uživatele
-- [ ] Plně responzivní stránky
+    - [X] Úprava profilu uživatele
 - [ ] Kompletní testovací data
+    - [X] Uživatelé
+    - [ ] Příspěvky
+    - [ ] Recenze
 - [ ] Kompletní postup instalace (Docker i ruční)
 - [ ] Dokumentace
 - [ ] Po dokončení zakázat výpisy chyb do stránky

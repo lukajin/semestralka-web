@@ -52,3 +52,25 @@ input{
     margin-left: auto;
     margin-right: auto;
 }
+h1, h2 {
+    text-align: center;
+    margin-top: .2em;
+}
+@media (max-width: 767.98px) {
+    .table > :not(caption) > * > * {
+        padding: .2em;
+    }
+}
+tr.crossout>td:nth-child(-n+4){
+    text-decoration: line-through red 1pt;
+}
+tr.crossout>td:nth-child(5){
+    color: #c00;
+    font-weight: bold;
+}
+td > abbr{
+    color: gray;
+}
+select{
+    display: block;
+}
