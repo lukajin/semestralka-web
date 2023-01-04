@@ -1,0 +1,45 @@
+{% extends "base.twig" %}
+
+{% block title %}Profil uživatele {{data.login}}{% endblock %}
+
+{% block content %}
+<h1>Profil uživatele</h1>
+<div class="formbox">
+{% if user.roleid <= 1 %}
+  <strong>ID uživatele:</strong>
+  <div id="profile-id">{{data.id}}</div>
+{% endif %}
+  <strong>Uživatelské jméno:</strong>
+  <div>{{data.login}}</div>
+  <strong>Jméno a příjmení:</strong>
+  <div>{{data.jmeno}}</div>
+  <strong>Role:</strong>
+  {% if user.roleid <= 1 and user.id != data.id %}
+  <select id="profile-role">
+    {% if user.roleid == 0 %}
+    <option value="0"{{data.roleid == 0?' selected':''}}>SuperAdmin</option>
+    <option value="1"{{data.roleid == 1?' selected':''}}>Administrátor</option>
+    {% endif %}
+    <option value="2"{{data.roleid == 2?' selected':''}}>Recenzent</option>
+    <option value="3"{{data.roleid == 3?' selected':''}}>Autor</option>
+  </select>
+  <div id="profile-role-result"></div>
+  <strong>Stav:</strong>
+  <div id="profile-activate-result">{{data.povolen == 'N' ? 'Zakázán' : 'Povolen'}}</div>
+  <input type="button" id="profile-activate"
+    value="{{data.povolen == 'N' ? 'Povolit' : 'Zakázat'}}">
+  {% else %}
+  <input type="hidden" id="profile-role" value="{{ data.roleid }}">
+  <div>{{data.role}}</div>
+  {% endif %}
+  <h2>Změna hesla</h2>
+  <strong>Nové heslo:</strong>
+  <input type="password" id="password1">
+  <strong>Nové heslo znovu pro potvrzení:</strong>
+  <input type="password" id="password2">
+  <div id="password-status"></div>
+  <input class="mt-2" type="button" id="password-change" value="Změnit heslo">
+</div>
+
+
+{% endblock %}

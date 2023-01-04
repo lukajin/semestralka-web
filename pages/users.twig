@@ -1,0 +1,44 @@
+{% extends "base.twig" %}
+
+{% block title %}Správa uživatelů{% endblock %}
+
+{% block content %}
+<h1>Správa uživatelů</h1>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Login</th>
+        <th>Jméno</th>
+        <th>Role</th>
+        <th>Povolen</th>
+        <th>Upravit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in data %}
+      <tr{{u.povolen=='N' ? ' class="crossout"' : ''}}>
+        <td>{{u.id}}</td>
+        <td>{{u.login}}</td>
+        <td>{{u.jmeno}}</td>
+        <td>{{u.role}}</td>
+        <td>{{u.povolen=='N' ? 'Ne' : 'Ano'}}</td>
+        <td>
+          {# less is more: SuperAdmin=0, Admin=1, ostatni tohle nevidi #}
+          {% if user.roleid < u.roleid %}
+          <a href="?p=profile&id={{u.id}}">Upravit</a>
+          {% elseif user.id == u.id %}
+          <a href="?p=profile">Můj účet</a>
+          {% elseif user.roleid == 0 %}
+          <a href="?p=profile&id={{u.id}}">Upravit</a>
+          {% else %}
+          <abbr title="Nemáte oprávnění ke správě administrátorů.">(admin)</abbr>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
