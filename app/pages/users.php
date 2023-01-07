@@ -1,8 +1,8 @@
 <?php
-function page_users($session){
-    if(!($user = $session->user_info()) || $user['roleid'] > 1){
+function page_users(User|null $user, Database $db){
+    if(!$user || $user->roleid > 1){
         return false;
     }
-    return $session->query_user_info();
+    return $db->query_user_info();
 }
 ?>

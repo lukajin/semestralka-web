@@ -2,7 +2,7 @@
 /**
  * Třída zprostředkující přístup k databázi
  */
-class Database{
+class DatabaseConnection {
     /** @var PDO Instance připojení k databázi */
     private $pdo;
     /** @var string Identifikace zdroje dat */
@@ -12,7 +12,8 @@ class Database{
     /** Heslo uživatele pro přístup k databázi */
     private $password;
     /**
-     * Vytvoří připojení k databázi
+     * Vytvoří připojení k databázi. Samotné spojení s databází
+     * se provede až při požadavku na dotaz pomocí jedné z metod této třídy.
      * @param string $dsn Identifikace zdroje dat;
      * např. pro MySQL je v základním formátu "mysql:host=SERVER;dbname=NÁZEV_DB"
      * @param string $user Uživatelské jméno pro přístup k databázi
@@ -22,8 +23,6 @@ class Database{
         $this->dsn = $dsn;
         $this->user = $user;
         $this->password = $password;
-        //$this->pdo = new PDO($dsn, $user, $password);
-        //$this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     /**
      * Provede skutečné připojení k databázi, pokud k němu ještě nedošlo.

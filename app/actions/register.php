@@ -1,5 +1,5 @@
 <?php
-function register($session){
+function register(Session $session, Database $db){
     if($session->user_info()){
         return false;
     }
@@ -11,7 +11,6 @@ function register($session){
     $result = [
         'success'=>'false',
         'redirect'=>'register'
-        //'redirect'=>'ajax'
     ];
     foreach(['jmeno','login','heslo','heslo2'] as $i){
         $result[$i] = ['value'=>$_POST[$i] ?? ''];
@@ -24,7 +23,7 @@ function register($session){
         $result['login']['invalid'] = true;
         $allvalid = false;
     }
-    else if(!$session->is_username_available($_POST['login'])){
+    else if(!$db->is_username_available($_POST['login'])){
         $result['login']['invalid'] = true;
         $result['login']['used'] = true;
         $allvalid = false;
@@ -40,7 +39,7 @@ function register($session){
     if(!$allvalid){
         return $result;
     }
-    if(!$session->register($name,$login,$pw)){
+    if(!($user = $db->register($name,$login,$pw))){
         $result['alert'] = [
             'class' => 'danger',
             'message' => 'Při registraci došlo k neočekávané chybě.',
@@ -48,6 +47,7 @@ function register($session){
         ];
         return $result;
     }
+    $session->login($user);
     return ['success'=>true];
 }
 ?>

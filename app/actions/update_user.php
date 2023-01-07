@@ -1,5 +1,5 @@
 <?php
-function update_user($session){
+function update_user(Session $session, Database $db){
     $target_id = $_POST['id'] ?? null;
     $target_role = $_POST['current-role'] ?? null;
     $field = $_POST['field'] ?? null;
@@ -30,15 +30,15 @@ function update_user($session){
      * a (nemeni sebe nebo nemeni heslo = nemeni svoje heslo)
      */
     if(!($user = $session->user_info()) /* neprihlasen */
-        || (($user['roleid'] > 1) /* neni admin */
+        || (($user->roleid > 1) /* neni admin */
             || (($target_role <= 1 /* meni admina */
                 || ($field == 'role' && $value <= 1 ) /* nebo roli na admina */
-            ) && $user['roleid'] > 0)) /* neni superadmin */
-        && (($target_id!=-1 && $target_id!=$user['id']) || $field != 'heslo')){
+            ) && $user->roleid > 0)) /* neni superadmin */
+        && (($target_id!=-1 && $target_id!=$user->id) || $field != 'heslo')){
         return ["success"=>false,"message"=>"permission denied"];
     }
     if($target_id == -1){
-        $target_id = $user['id'];
+        $target_id = $user->id;
     }
     if($field == 'heslo'){
         $value = password_hash($value,PASSWORD_BCRYPT);
@@ -47,6 +47,6 @@ function update_user($session){
         return ["success"=>false,"message"=>"cannot change $field"];
     }
     return ["success" =>
-        $session->update_user($target_id, $target_role, $field, $value)!==false];
+        $db->update_user($target_id, $target_role, $field, $value)!==false];
 }
 ?>

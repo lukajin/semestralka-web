@@ -66,6 +66,7 @@ funkční webový a databázový server (produkční server či
 vývojový balík jako např. [EasyPHP](https://www.easyphp.org/)
 či [XAMPP](https://www.apachefriends.org/))
 a schopnost tento konfigurovat.
+Aplikace pro svůj běh vyžaduje PHP verze alespoň 8.1.
 Dále je potřeba nástroj [Composer](https://getcomposer.org/) pro instalaci
 šablonovacího systému Twig.
 

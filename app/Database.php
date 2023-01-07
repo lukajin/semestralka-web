@@ -1,25 +1,23 @@
 <?php
 /**
- * Třída zprostředkující stav a provádění akcí uživatelů
+ * Třída zprostředkující provádění akcí uživatelů v databázi
  * @author Jindřich Lukáš
  */
-class Session{
-    /** @var Database Připojení k databázi */
+class Database{
+    /** @var DatabaseConnection $db Připojení k databázi */
     private $db;
     /**
      * Připraví práci se session a databází
-     * @param Database $db Připojení k databázi. Pro některé operace není
-     * potřeba, proto není nutné jej uvést.
+     * @param DatabaseConnection $db Připojení k databázi.
      */
-    public function __construct($db=null){
+    public function __construct(DatabaseConnection $db){
         $this->db = $db;
-        session_start();
     }
     /**
      * Přihlásí uživatele a vrátí informace o něm.
      * @param string $login Uživatelské jméno
      * @param string $password Heslo
-     * @return array|false Informace o přihlášeném uživateli (stejné jako z metody user_info())
+     * @return User|false Informace o přihlášeném uživateli
      * nebo false pokud se přihlášení nepodařilo.
      */
     public function login($login,$password){
@@ -35,24 +33,13 @@ class Session{
         if(!password_verify($password, $userinfo['heslo'])){
             return false;
         }
-        unset($userinfo['heslo']);
-        $_SESSION["user"]=$userinfo;
-        return $userinfo;
-    }
-    /**
-     * Odhlásí uživatele. Tato operace nevyžaduje přístup k databázi.
-     */
-    public function logout(){
-        unset($_SESSION["user"]);
-    }
-
-    /**
-     * Vrátí informace o přihlášeném uživateli nebo false pokud uživatel
-     * není přihlášen.
-     * @return array|false 
-     */
-    public function user_info(){
-        return $_SESSION["user"] ?? false;
+        return new User(
+            $userinfo['id'],
+            $userinfo['roleid'],
+            $userinfo['role'],
+            $userinfo['login'],
+            $userinfo['jmeno']
+        );
     }
 
     /**

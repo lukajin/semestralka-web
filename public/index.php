@@ -4,14 +4,19 @@ ini_set('display_errors', 'On');
 
 require_once '../config.php';
 require_once '../vendor/autoload.php'; // Composer - Twig
-require_once APP_DIR.'database.php';
-require_once APP_DIR.'session.php';
+spl_autoload_register(function ($class_name) {
+    include APP_DIR.$class_name.'.php';
+});
 
 // Pro odchycení útoků využívajících speciální znaky v názvu požadované stránky
 const SAFE_NAME_REGEX = '/^[0-9A-Za-z\-_]+$/i';
 
-$db = new Database(DB_DSN, DB_USER, DB_PASS);
-$session = new Session($db);
+if(!defined("DB_USER")) define("DB_USER", null);
+if(!defined("DB_PASS")) define("DB_PASS", null);
+$db = new Database(
+    new DatabaseConnection(DB_DSN, DB_USER, DB_PASS)
+    );
+$session = new Session();
 $twig = new \Twig\Environment(
     new \Twig\Loader\FilesystemLoader(PAGES_DIR),
     ['cache'=>'/tmp',
@@ -24,7 +29,7 @@ if(isset($_POST['a'])
     && preg_match(SAFE_NAME_REGEX, $action = $_POST['a'])
     && file_exists($action_script = APP_DIR."actions/$action.php")){
     require_once $action_script;
-    $status = $action($session);
+    $status = $action($session,$db);
 }
 
 if(isset($status["redirect"])){
@@ -46,7 +51,7 @@ else if(!file_exists(PAGES_DIR.$page.PAGES_EXT)){
 // Provést akce specifické pro danou stránku (nemusí existovat - to je taky OK)
 if(file_exists($page_script = APP_DIR."pages/$page.php")){
     require_once $page_script;
-    $data = ('page_'.$page)($session);
+    $data = ('page_'.$page)($session->user_info(),$db);
 }
 
 // Vlastní vykreslení stránky
