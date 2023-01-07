@@ -1,14 +1,14 @@
 <?php
-/* Adresář s PHP skripty */
-define("APP_DIR","../app/");
-/* Adresář se šablonami stránek */
-define("PAGES_DIR","../pages/");
+/* Adresář s PHP skripty aplikace (relativní vůči public/index.php) */
+const APP_DIR = "../app/";
+/* Adresář se šablonami stránek (relativní vůči public/index.php) */
+const PAGES_DIR = "../pages/";
 /* Přípona souborů se šablonami stránek */
-define("PAGES_EXT",".twig");
+const PAGES_EXT = ".twig";
 /* Soubor s hlavní/úvodní/výchozí stránkou (bez cesty a přípony) */
-define("PAGE_DEFAULT","home");
+const PAGE_DEFAULT = "home";
 /* Soubor se stránkou, která se zobrazí namísto neexistující stránky */
-define("PAGE_NOTFOUND","notfound");
+const PAGE_NOTFOUND = "notfound";
 
 /*
 Následují údaje pro připojení k databázi.
@@ -23,11 +23,12 @@ lze odstranit nebo zakomentovat, nejsou-li pro daný DBMS potřeba.
 */
 
 /** Ǐdentifikátor zdroje dat (DSN, Data Source Name) */
-define("DB_DSN","mysql:host=localhost;dbname=web");
+const DB_DSN = "mysql:host=localhost;dbname=web";
 
 /** Uživatel databáze. */
-define("DB_USER","web");
+const DB_USER = "web";
 
 /** Heslo uživatele databáze */
-define("DB_PASS","\$ecretPass");
+const DB_PASS = "\$ecretPass";
+
 ?>
