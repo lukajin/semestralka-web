@@ -14,4 +14,3 @@ function page_profile(User|null $user, Database $db){
     }
     return false;
 }
-?>

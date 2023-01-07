@@ -65,4 +65,3 @@ $pdata = [
 ];
 echo $twig->render($page.PAGES_EXT,$pdata);
 //var_dump($pdata);
-?>

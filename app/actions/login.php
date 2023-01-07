@@ -13,4 +13,3 @@ function login(Session $session, Database $db){
         return ['redirect' => PAGE_DEFAULT];
     }
 }
-?>

@@ -50,4 +50,3 @@ function register(Session $session, Database $db){
     $session->login($user);
     return ['success'=>true];
 }
-?>

@@ -104,4 +104,3 @@ class DatabaseConnection {
         return $q && $q->execute($values);
     }
 }
-?>

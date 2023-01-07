@@ -6,4 +6,3 @@ function logout($session){
         return ['redirect' => PAGE_DEFAULT];
     }
 }
-?>

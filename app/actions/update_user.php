@@ -49,4 +49,3 @@ function update_user(Session $session, Database $db){
     return ["success" =>
         $db->update_user($target_id, $target_role, $field, $value)!==false];
 }
-?>

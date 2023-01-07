@@ -30,5 +30,3 @@ const DB_USER = "web";
 
 /** Heslo uživatele databáze */
 const DB_PASS = "\$ecretPass";
-
-?>

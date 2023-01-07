@@ -5,4 +5,3 @@ function page_users(User|null $user, Database $db){
     }
     return $db->query_user_info();
 }
-?>
