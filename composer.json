@@ -1,5 +1,7 @@
 {
     "require": {
+        "ext-pdo": "*",
+        "ext-json": "*",
         "twig/twig": "^3.3"
     }
 }
