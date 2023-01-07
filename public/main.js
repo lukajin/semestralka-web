@@ -8,6 +8,7 @@ function on(elementID, event, handler){
 function ajax(params,callback){
     let r = new XMLHttpRequest();
     r.open("post","?p=ajax",true);
+    r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     r.onreadystatechange = function(){
         if(r.readyState!=4) return;
         if(r.status==200) {
