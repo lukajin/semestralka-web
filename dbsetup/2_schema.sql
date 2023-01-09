@@ -25,9 +25,10 @@ create table prispevek (
     autor integer not null,
     nazev varchar(255) not null,
     abstrakt text,
-    soubor varchar(32),
+    soubor varchar(64),
     zmenen timestamp not null,
-    publikovan timestamp,
+    stav char(1) not null default 'C', -- Ceka/Akceptovan/Zamitnut
+    constraint ck_prispevek_stav check (stav in ('C','A','Z')),
     constraint fk_prispevek_autor foreign key (autor) references uzivatel(id)
 );
 create table recenze (

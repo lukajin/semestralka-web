@@ -103,4 +103,8 @@ class DatabaseConnection {
         );
         return $q && $q->execute($values);
     }
+
+    public function get_last_insert_id(){
+        return intval($this->pdo->lastInsertId());
+    }
 }

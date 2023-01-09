@@ -13,8 +13,8 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
     - [ ] Domovská stránka
     - [ ] Publikované příspěvky
     - [ ] Zobrazení příspěvku
-    - [ ] Autor - Moje příspěvky
-    - [ ] Autor - Vytvoření/úprava příspěvku
+    - [X] Autor - Moje příspěvky
+    - [X] Autor - Vytvoření/úprava příspěvku
     - [ ] Recenzent - Recenze
     - [ ] Admin - Schvalování příspěvků
     - [X] Admin - Správa uživatelů

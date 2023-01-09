@@ -1,4 +1,8 @@
-const element = document.getElementById.bind(document);
+function element(elementID){
+    return (elementID instanceof HTMLElement)
+        ? elementID
+        : document.getElementById(elementID);
+}
 function on(elementID, event, handler){
     let e = element(elementID);
     if(e){
@@ -6,9 +10,12 @@ function on(elementID, event, handler){
     }
 }
 function ajax(params,callback){
+    let f = new FormData();
+    for(let key of Object.keys(params)){
+        f.append(key,params[key]);
+    }
     let r = new XMLHttpRequest();
     r.open("post","?p=ajax",true);
-    r.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
     r.onreadystatechange = function(){
         if(r.readyState!=4) return;
         if(r.status==200) {
@@ -19,9 +26,7 @@ function ajax(params,callback){
         }
         else console.log(r.status+" "+r.statusText);
     };
-    r.send(Object.keys(params).map(function(key){
-        return key+"="+encodeURIComponent(params[key]);
-    }).join("&"));
+    r.send(f);
 }
 function elementValue(elementID,defaultValue){
     let e = element(elementID);
@@ -65,7 +70,7 @@ if(element("register-form")){ // register.twig
         }
     });
 }
-if(element("password-change")){ // profile.twig
+else if(element("password-change")){ // profile.twig
     const targetUser = +elementValue("profile-id",-1);
     let currentRole = +elementValue("profile-role");
     function updateUser(field,value,callback){
@@ -100,5 +105,89 @@ if(element("password-change")){ // profile.twig
             element("password-status").innerHTML = response.success ?
                 "Heslo bylo změněno." : "Při změně hesla došlo k chybě.";
         });
+    });
+}
+else if(element("post-update")){ // post.twig, úprava příspěvku (ne nový)
+    const id = elementValue("post-id"),
+        title = element("post-title"),
+        abstract = element("post-abstract"),
+        file = element("post-file"),
+        updateButton = element("post-update"),
+        uploadButton = element("post-upload"),
+        updateResponse = element("post-update-response"),
+        uploadResponse = element("post-upload-response");
+    let currentTitle = elementValue(title),
+        currentAbstract = elementValue(abstract);
+    function enableButton(){
+        updateResponse.innerHTML="";
+        uploadResponse.innerHTML="";
+        this.disabled = false;
+    }
+    const enableUpdate = enableButton.bind(updateButton);
+    on(title,"keyup",enableUpdate);
+    on(abstract,"keyup",enableUpdate);
+    on(file,"input",enableButton.bind(uploadButton));
+
+    on(updateButton,"click",function(){
+        let newTitle = elementValue(title),
+            newAbstract = elementValue(abstract);
+        if(newTitle === currentTitle && newAbstract === currentAbstract){
+            return;
+        }
+        ajax({
+            a: "update_post",
+            id: id,
+            nazev: newTitle,
+            abstrakt: newAbstract
+        },function(response){
+            if(response && response.success){
+                updateButton.disabled = true;
+                updateResponse.innerHTML = "Změny uloženy.";
+                currentTitle = newTitle;
+                currentAbstract = newAbstract;
+            }
+            else updateResponse.innerHTML = "Při ukládání změn došlo k chybě.";
+        });
+    });
+    on(uploadButton,"click",function(){
+        ajax({
+            a: "update_post",
+            id: id,
+            soubor: file.files[0]
+        },function(response){
+            if(response && response.success){
+                file.value = "";
+                uploadResponse.innerHTML = "Soubor byl nahrán.";
+                element("file-link").href="uploads/"+response.file;
+                if(element("uploaded-file").classList.contains("d-none")){
+                    element("uploaded-file").classList.remove("d-none");
+                    element("no-file").classList.add("d-none");
+                }
+            }
+            else {
+                uploadButton.disabled = false;
+                uploadResponse.innerHTML = "Při nahrávání souboru došlo k chybě.";
+            }
+        });
+        uploadButton.disabled = true;
+        uploadResponse.innerHTML = "Nahrávání souboru...";
+    });
+    window.addEventListener("beforeunload", function (ev) {
+        let msg = null;
+        if(elementValue(title) !== currentTitle
+            || elementValue(abstract) !== currentAbstract){
+            msg="V příspěvku byly provedeny změny, které nebyly uloženy.\n" +
+                "Opuštěním této stránky budou tyto změny ztraceny.\n" +
+                "Opravdu chcete stránku opustit?";
+        }
+        else if(file.value){
+            msg="Vybraný soubor nebyl nahrán.\n" +
+                "Opravdu chcete stránku opustit?"
+        }
+        if(msg){
+            ev.preventDefault();
+            ev.returnValue = msg;
+            return msg;
+        }
     });
 }

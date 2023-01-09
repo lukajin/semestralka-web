@@ -86,4 +86,76 @@ class Database{
             ["id" => $id, "role" => $target_role_check],
             ["value" => $value]);
     }
+
+    /**
+     * Vrátí seznam příspěvků autora
+     * @param number $id ID požadujícího uživatele
+     * @return array|false Pole příspěvků nebo false při chybě.
+     */
+    public function get_author_posts($id){
+        return $this->db->query("select id, nazev, abstrakt, zmenen, soubor, stav
+        from prispevek",['autor'=>$id]);
+    }
+
+    public function create_post($author, $title, $abstract){
+        return $this->db->insert("prispevek",[
+            "autor"=>$author,
+            "nazev"=>$title,
+            "abstrakt"=>$abstract,
+            "zmenen"=>null
+        ]) ? $this->db->get_last_insert_id() : false;
+    }
+
+    /**
+     * Upraví záznam o příspěvku. ID a Autor jsou povinné atributy.
+     * Ostatní jsou nepovinné, null zachová původní hodnotu.
+     * @param number $id ID příspěvku
+     * @param number $author ID autora (bezpečnostní kontrola)
+     * @param string $title Název/titulek příspěvku
+     * @param string $abstract Abstrakt
+     * @param string $filename Jméno nahraného souboru
+     * @return bool true při úspěchu
+     */
+    public function update_post($id, $author, $title, $abstract, $filename){
+        if(!$title && !$abstract && !$filename) return true;
+        $sql = "update prispevek set";
+        $values = [];
+        if(isset($title)){
+            $sql .= " nazev=:nazev,";
+            $values["nazev"]=$title;
+        }
+        if(isset($abstract)){
+            $sql .= " abstrakt=:abstrakt,";
+            $values["abstrakt"]=$abstract;
+        }
+        if(isset($filename)){
+            $sql .= " soubor=:soubor,";
+            $values["soubor"]=$filename;
+        }
+        $sql = substr($sql, 0, strlen($sql) - 1);
+        return false !== $this->db->query($sql,["id"=>$id,"autor"=>$author],$values);
+    }
+
+    /**
+     * Získá informace o příspěvku
+     * @param number $id ID příspěvku
+     * @return array|null Asociativní pole informací o příspěvku
+     * nebo null pokud příspěvek neexistuje nebo došlo k chybě
+     */
+    public function get_post($id){
+        $arr = $this->db->query("select * from prispevek",['id'=>$id]);
+        return ($arr && is_array($arr) && count($arr)) ? $arr[0] : null;
+    }
+
+    /**
+     * Odstraní záznam o příspěvku z databáze.
+     * @param number $id ID příspěvku
+     * @param number|null $author Autor příspěvku (bezpečnostní kontrola).
+     * Předáním null bude příspěvek smazán bez ohledu na jeho autora.
+     */
+    public function delete_post($id, $author){
+        return $this->db->query("delete from prispevek",
+            isset($author) ? ['id'=>$id,'autor'=>$author] : ['id'=>$id]
+        );
+    }
 }

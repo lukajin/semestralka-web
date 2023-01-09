@@ -1,0 +1,51 @@
+{% extends "base.twig" %}
+
+{% block title %}Moje příspěvky{% endblock %}
+
+{% block content %}
+<div class="h3">{{data ? 'Upravit' : 'Nový'}} příspěvek</div>
+<form action="?p=myposts" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="a" value="update_post">
+    <label for="post-title">Titulek:</label>
+    <input id="post-title" name="nazev" type="text" required{{
+    (data.nazev ? ' value="'~(data.nazev|e('html_attr'))~'"':'')|raw
+    }}>
+    <label for="post-abstract">Abstrakt:</label>
+    <textarea id="post-abstract" name="abstrakt">{{
+        data.abstrakt ? data.abstrakt : ''
+        }}</textarea>
+    {% if data %}
+        <input type="hidden" name="id" id="post-id" value="{{ data.id }}">
+        <input id="post-update" type="button" value="Uložit změny" disabled>
+        <div class="mb-3" id="post-update-response"></div>
+        <div id="uploaded-file"{{ data.soubor ? '' : ' class="d-none"' }}>
+            <label>Nahraný soubor:</label>
+            <a id="file-link" href="uploads/{{ data.soubor }}">Stáhnout</a>
+        </div>
+        <div id="no-file"{{ data.soubor ? ' class="d-none"' : '' }}>
+            <label>K příspěvku nebyl zatím nahrán žádný soubor.</label>
+        </div>
+    {% endif %}
+    <label for="post-file">Nahrát soubor (PDF):</label>
+    <input type="file" id="post-file" name="soubor" accept=".pdf, application/pdf">
+    {% if not data %}
+        <input type="submit" value="Vytvořit příspěvek">
+    {% else %}
+        {% if data.soubor %}
+            <div class="alert-warning" role="alert">
+                <strong>Upozornění:</strong> Nahráním souboru se předchozí nahraný soubor nahradí novým.
+            </div>
+        {% endif %}
+        <input type="button" id="post-upload" value="Nahrát soubor" disabled>
+        <div id="post-upload-response"></div>
+    {% endif %}
+</form>
+{% if data.id %}
+    <form class="mt-4" action="?p=myposts" method="post"
+    onsubmit="return confirm('Opravdu chcete příspěvek smazat?\nTuto akci nelze vrátit zpět!');">
+        <input type="hidden" name="a" value="delete_post">
+        <input type="hidden" name="id" value="{{ data.id }}">
+        <input type="submit" class="btn btn-outline-danger" value="Smazat příspěvek">
+    </form>
+{% endif %}
+{% endblock %}

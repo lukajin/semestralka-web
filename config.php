@@ -1,4 +1,6 @@
 <?php
+/* Adresář s nahranými soubory (relativní vůči public/index.php) */
+const UPLOAD_DIR = "uploads/";
 /* Adresář s PHP skripty aplikace (relativní vůči public/index.php) */
 const APP_DIR = "../app/";
 /* Adresář se šablonami stránek (relativní vůči public/index.php) */

@@ -1,0 +1,26 @@
+{% extends "base.twig" %}
+
+{% block title %}Moje příspěvky{% endblock %}
+
+{% block content %}
+<h1>Moje příspěvky</h1>
+<a href="?p=post" role="button" class="btn btn-sm btn-outline-success">Přidat příspěvek</a>
+{% for p in data %}
+    <div class="mt-3"><strong><u>{{p.nazev}}</u></strong></div>
+    <div>{{p.abstrakt ?: '<em>(Abstrakt nevyplněn)</em>'|raw}}</div>
+    <div><label>Poslední úprava:</label> {{p.zmenen}}</div>
+    {% if p.soubor %}
+    <div><label>Soubor:</label> <a href="uploads/{{p.soubor}}">Stáhnout</a></div>
+    {% endif %}
+    <div><label>Stav:</label> {{p.stav=='A'
+        ? 'Akceptován'
+        : p.stav=='Z'
+        ? 'Zamítnut'
+        : 'Čeká na posouzení'}}</div>
+    <form action="/" method="get">
+        <input type="hidden" name="p" value="post">
+        <input type="hidden" name="id" value="{{p.id}}">
+        <input type="submit" value="Upravit">
+    </form>
+{% endfor %}
+{% endblock %}

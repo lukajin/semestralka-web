@@ -52,7 +52,7 @@ input{
     margin-left: auto;
     margin-right: auto;
 }
-h1, h2 {
+h1, h2, .h3 {
     text-align: center;
     margin-top: .2em;
 }
@@ -73,4 +73,10 @@ td > abbr{
 }
 select{
     display: block;
+}
+label{
+    font-weight: bold;
+}
+textarea, input[type="text"]{
+    width: 100%;
 }
