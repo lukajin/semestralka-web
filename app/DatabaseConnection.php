@@ -67,6 +67,8 @@ class DatabaseConnection {
                 // odstranit poslední "and" přidané výše, včetně mezer kolem
                 substr($sql, 0, strlen($sql) - 5) . ";"
             );
+            //var_dump($sql);
+            //var_dump($params);
             if($q === false || !$q->execute($params)){
                 return false;
             }

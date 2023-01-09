@@ -19,6 +19,11 @@ Require all granted
 </Directory>
 EOI
 
+# NOTE: to reset and reinstall the database (useful during development), run:
+#   mysqladmin shutdown
+#   rm -r /var/lib/mysql/* (DO NOT delete /var/lib/mysql itself!)
+# then restart the container
+
 # ensure all data directories needed by Apache/MariaDB exist and have correct permissions
 # default situation looks like this:
 # /run/apache2: root:root (need owner 'apache')

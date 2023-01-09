@@ -8,7 +8,7 @@ function update_user(Session $session, Database $db){
         return ["success"=>false,"message"=>"arguments missing"];
     }
     /*
-     * kontrola roli je krypticka, takze zde je vysvetleni (a kontrola)
+     * kontrola opravneni je krypticka, takze zde je vysvetleni (a kontrola)
      *
      * kdokoliv muze menit svoje heslo
      * admin muze navic menit role ne-admina na ne-admina
@@ -47,5 +47,5 @@ function update_user(Session $session, Database $db){
         return ["success"=>false,"message"=>"cannot change $field"];
     }
     return ["success" =>
-        $db->update_user($target_id, $target_role, $field, $value)!==false];
+        $db->update_user($target_id, $target_role, $field, $value)];
 }

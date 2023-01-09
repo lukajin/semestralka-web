@@ -80,8 +80,17 @@ class Database{
         return (isset($id) && !empty($res)) ? $res[0] : $res;
     }
 
+    /**
+     * Upraví informaci o daném uživateli
+     * @param number $id ID cílového uživatele
+     * @param number $target_role_check Aktuální role cílového uživatele
+     * (pro bezpečnostní kontrolu)
+     * @param string $field Název položky (sloupce), které bude změněna
+     * @param mixed $value Nová hodnota sloupce
+     * @return bool True při úspěchu, false při chybě
+     */
     public function update_user($id, $target_role_check, $field, $value){
-        return $this->db->query(
+        return false !== $this->db->query(
             "update uzivatel set $field = :value",
             ["id" => $id, "role" => $target_role_check],
             ["value" => $value]);
