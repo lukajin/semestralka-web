@@ -30,6 +30,11 @@ mkdir -p /run/mysqld
 chown mysql /run/mysqld
 chown apache /var/log/apache2 /run/apache2
 
+if test -d /web/public/uploads
+then
+    chown -R apache /web/public/uploads
+fi
+
 # create a script that starts everything up when the container is started
 cat <<EOI >/entry.sh
 #!/bin/sh
