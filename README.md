@@ -22,7 +22,7 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
     - [X] Úprava profilu uživatele
 - [ ] Kompletní testovací data
     - [X] Uživatelé
-    - [ ] Příspěvky
+    - [X] Příspěvky
     - [ ] Recenze
 - [ ] Kompletní postup instalace (Docker i ruční)
 - [ ] Dokumentace
