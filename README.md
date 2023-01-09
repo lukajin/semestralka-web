@@ -29,18 +29,18 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
 - [ ] Po dokončení zakázat výpisy chyb do stránky
 
 ## Struktura adresářů
-* Kořenový adresář - organizační soubory
 * `app` - PHP skripty aplikace
 	* `actions` - skripty akcí (přihlášení, jakékoli změny dat v databázi)
 	* `pages` - dodatečné akce související se zobrazením konkrétních stránek
-	* Třídy zprostředkující práci s databází (`database.php`)
-        a session (`session.php`)
+	* Třídy zprostředkující práci s databází a session
 * `dbsetup` - skripty pro instalaci databáze
 * `docker` - skript pro automatické zprovoznění aplikace pomocí Dockeru (viz dále)
 * `pages` - šablony stránek (Twig)
 * `public` - kořenová složka webového serveru (tzv. document root)
     * `index.php` - vstupní bod aplikace
+    * soubory CSS a JavaScriptu
 * `vendor` (není distribuován) - komponenty stažené přes Composer (Twig)
+* Kořenový adresář - organizační soubory jinde nezařazené
 
 ## Automatická instalace (Docker)
 Pro jednoduchou instalaci (i odinstalaci)
@@ -71,8 +71,8 @@ Dále je potřeba nástroj [Composer](https://getcomposer.org/) pro instalaci
 šablonovacího systému Twig.
 
 Doporučenou kombinací softwaru je opět Apache (díky jeho dobré podpoře jazyka
-PHP) a MySQL/MariaDB (pro který jsou napsány instalační skripty).
-Je ale možné použít i jiný software.
+PHP) a MySQL/MariaDB (pro který jsou napsány všechny dotazy a instalační skripty).
+Teoreticky je možné použít i jiný software, ten však nebyl testován.
 
 Pro ruční zprovoznění aplikace je potřeba:
 * Nasměrovat webový server (document root) na zdejší adresář `public`.
@@ -113,7 +113,6 @@ zejména změnit jméno uživatele či databáze či použít existující.
     je nutné najít jeho spouštěcí soubor (`php` či `php.exe`),
     případně jej [stáhnout](https://www.php.net/downloads.php)
     a použít v příkazu výše namísto `php` úplnou cestu.
-
 
 * Upravit přístupové údaje k databázovému serveru v souboru `config.php`
 v tomto adresáři.
