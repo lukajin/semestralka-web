@@ -1,5 +1,7 @@
 {% macro navlink(current_page, name, title) %}
+  <li>
   <a class="nav-link{% if current_page == name %} active{% endif %}" href="?p={{name}}">{{title}}</a>
+  </li>
 {% endmacro %}
 <!doctype html>
 <html lang="cs">
@@ -45,19 +47,21 @@
       </ul>
       <ul class="navbar-nav">
       {% if user %}
-        <div class="navbar-item">
+        <li class="navbar-item">
           {# SVG ikona: https://icons.getbootstrap.com/icons/person-fill/ #}
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
           </svg>
           {{ user.jmeno }}
-        </div>
+        </li>
         {{ _self.navlink(default_page,'profile','Můj účet') }}
+        <li>
         <form action="?p={{current_page}}" method="post">
           <input type="hidden" name="a" value="logout">
           {# https://stackoverflow.com/a/4286493 #}
           <input class="nav-link" type="submit" value="Odhlásit">
         </form>
+        </li>
       {% else %} {# = not user #}
         <li class="dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button"
