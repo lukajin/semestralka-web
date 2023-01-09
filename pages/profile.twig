@@ -6,15 +6,15 @@
 <h1>Profil uživatele</h1>
 <div class="formbox">
 {% if user.roleid <= 1 %}
-  <strong>ID uživatele:</strong>
+  <label>ID uživatele:</label>
   <div id="profile-id">{{data.id}}</div>
 {% endif %}
-  <strong>Uživatelské jméno:</strong>
+  <label>Uživatelské jméno:</label>
   <div>{{data.login}}</div>
-  <strong>Jméno a příjmení:</strong>
+  <label>Jméno a příjmení:</label>
   <div>{{data.jmeno}}</div>
-  <strong>Role:</strong>
   {% if user.roleid <= 1 and user.id != data.id %}
+  <label for="profile-role">Role:</label>
   <select id="profile-role">
     {% if user.roleid == 0 %}
     <option value="0"{{data.roleid == 0?' selected':''}}>SuperAdmin</option>
@@ -24,18 +24,19 @@
     <option value="3"{{data.roleid == 3?' selected':''}}>Autor</option>
   </select>
   <div id="profile-role-result"></div>
-  <strong>Stav:</strong>
+  <label>Stav:</label>
   <div id="profile-activate-result">{{data.povolen == 'N' ? 'Zakázán' : 'Povolen'}}</div>
   <input type="button" id="profile-activate"
     value="{{data.povolen == 'N' ? 'Povolit' : 'Zakázat'}}">
   {% else %}
   <input type="hidden" id="profile-role" value="{{ data.roleid }}">
+  <label>Role:</label>
   <div>{{data.role}}</div>
   {% endif %}
   <h2>Změna hesla</h2>
-  <strong>Nové heslo:</strong>
+  <label for="password1">Nové heslo:</label>
   <input type="password" id="password1">
-  <strong>Nové heslo znovu pro potvrzení:</strong>
+  <label for="password2">Nové heslo znovu pro potvrzení:</label>
   <input type="password" id="password2">
   <div id="password-status"></div>
   <input class="mt-2" type="button" id="password-change" value="Změnit heslo">
