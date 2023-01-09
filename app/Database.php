@@ -106,6 +106,14 @@ class Database{
         from prispevek",['autor'=>$id]);
     }
 
+    /**
+     * Vrátí seznam publikovaných příspěvků (název, abstrakt, datum, soubor PDF).
+     */
+    public function get_public_posts(){
+        return $this->db->query("select nazev, abstrakt, zmenen, soubor
+        from prispevek",['stav'=>'A']);
+    }
+
     public function create_post($author, $title, $abstract){
         return $this->db->insert("prispevek",[
             "autor"=>$author,

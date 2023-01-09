@@ -1,0 +1,15 @@
+{% extends "base.twig" %}
+
+{% block title %}Příspěvky{% endblock %}
+
+{% block content %}
+<h1>Zveřejněné příspěvky</h1>
+{% for p in data %}
+    <div class="mt-3">
+        <strong><u>{{p.nazev}}</u></strong>
+        <small class="text-muted">&mdash;{{p.zmenen}}</small>
+    </div>
+    <div>{{p.abstrakt}}</div>
+    <div><a href="uploads/{{p.soubor}}">Stáhnout PDF</a></div>
+{% endfor %}
+{% endblock %}
