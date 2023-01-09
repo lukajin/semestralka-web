@@ -2,6 +2,7 @@
     "require": {
         "ext-pdo": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "twig/twig": "^3.3"
     }
 }
