@@ -95,8 +95,8 @@
             </table>
         </div>
         {% endif %}
+        <div class="d-flex flex-row">
         {% if p.recenzenti|length %}
-            <div class="d-flex flex-row">
                 <form class="d-flex flex-row" action="?p=myposts" method="post">
                     <input type="hidden" name="a" value="post_add_review">
                     <input type="hidden" name="id" value="{{ p.id }}">
@@ -108,15 +108,45 @@
                     </select>
                     <input type="submit" value="Přidat">
                 </form>
-                {% if p.stav != 'A' %}
-                    {{ _self.post_status(p.id, 'A', 'Schválit příspěvek', 'success') }}
-                {% if p.stav == 'Z' %}
-                    {{ _self.post_status(p.id, 'C', 'Znovu posoudit') }}
-                {% else %}
-                    {{ _self.post_status(p.id, 'Z', 'Zamítnout příspěvek', 'danger') }}
-                {% endif %}{% endif %}
-            </div>
         {% endif %}
+        {% if p.stav == 'C' %}
+            {{ _self.post_status(p.id, 'A', 'Schválit příspěvek', 'success') }}
+            {{ _self.post_status(p.id, 'Z', 'Zamítnout příspěvek', 'danger') }}
+        {% else %}
+            {{ _self.post_status(p.id, 'C', 'Znovu posoudit') }}
+        {% endif %}
+        </div>
+    {% elseif user.roleid == 2 %}
+        <div class="row rev" id="rev-{{ p.id }}">
+            <div class="col-md-6">
+                <label for="rev-comment-{{ p.id }}">Komentář:</label>
+                <textarea id="rev-comment-{{ p.id }}">{{
+                    p.komentar ? p.komentar : ''
+                    }}</textarea>
+            </div>
+            <div class="col-md-6">
+                <label>Hodnocení:</label>
+                <div class="d-flex flex-row">
+                    <label for="rev-obsah-{{ p.id }}">Obsah:</label>
+                    <input type="number" min="0" max="10" size="2"
+                           id="rev-obsah-{{ p.id }}" value="{{ p.h_obsah ? p.h_obsah : 0 }}">
+                    <label>/10</label>
+                </div>
+                <div class="d-flex flex-row">
+                    <label for="rev-aktualnost-{{ p.id }}">Aktuálnost:</label>
+                    <input type="number" min="0" max="10" size="2"
+                           id="rev-aktualnost-{{ p.id }}" value="{{ p.h_aktualnost ? p.h_aktualnost : 0 }}">
+                    <label>/10</label>
+                </div>
+                <div class="d-flex flex-row">
+                    <label for="rev-jazyk-{{ p.id }}">Jazyk:</label>
+                    <input type="number" min="0" max="10" size="2"
+                           id="rev-jazyk-{{ p.id }}" value="{{ p.h_jazyk ? p.h_jazyk : 0 }}">
+                    <label>/10</label>
+                </div>
+                <input type="button" id="rev-save-{{ p.id }}" value="Uložit recenzi" disabled>
+            </div>
+        </div>
     {% endif %}
 {% endfor %}
 {% endblock %}

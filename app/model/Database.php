@@ -112,6 +112,31 @@ class Database{
     }
 
     /**
+     * Vrátí seznam příspěvků pro recenzenta
+     * @param number $id ID požadujícího uživatele
+     * @return array|false Pole příspěvků nebo false při chybě.
+     */
+    public function get_review_posts($id){
+        return $this->db->query("select prispevek.id, jmeno, nazev, abstrakt, zmenen, soubor,
+            h_obsah, h_aktualnost, h_jazyk, komentar
+        from recenze left join prispevek on prispevek = prispevek.id
+        left join uzivatel on autor = uzivatel.id",['recenzent'=>$id,'stav'=>'C']);
+    }
+
+    public function update_review($user, $id, $komentar, $obsah, $aktualnost, $jazyk){
+        return false !== $this->db->query(
+                "update recenze set datum = null, komentar=:komentar,
+                   h_obsah=:obsah, h_aktualnost=:aktualnost, h_jazyk=:jazyk",
+                ["prispevek" => $id, "recenzent" => $user],
+                [
+                    'komentar'=>$komentar,
+                    'obsah'=>$obsah,
+                    'aktualnost'=>$aktualnost,
+                    'jazyk'=>$jazyk
+                ]);
+    }
+
+    /**
      * Vrátí seznam všech příspěvků (pro administrátory)
      * @return array|false Pole příspěvků nebo false při chybě.
      */

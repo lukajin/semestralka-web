@@ -193,3 +193,57 @@ else if(element("post-update")){ // post.twig, úprava příspěvku (ne nový)
         }
     });
 }
+else if(element("posts-2")){ // myposts.twig, recenzent
+    function onInput(){
+        this.btn.disabled=false;
+    }
+    function onSave(){
+        this.btn.disabled=true;
+        if(this.comment.value === this.c_comment
+            &&this.obsah.value === this.c_obsah
+            &&this.aktualnost.value === this.c_aktualnost
+            &&this.jazyk.value === this.c_jazyk){
+            return;
+        }
+        ajax({
+            a:"post_review",
+            id: this.id,
+            komentar: this.comment.value,
+            obsah: this.obsah.value,
+            aktualnost: this.aktualnost.value,
+            jazyk: this.jazyk.value
+        },function(response){
+            if(response.success){
+                this.c_comment = this.comment.value;
+                this.c_obsah = this.obsah.value;
+                this.c_obsah = this.aktualnost.value;
+                this.c_jazyk = this.jazyk.value;
+            }
+        }.bind(this));
+    }
+    for(let e of document.getElementsByClassName("rev")){
+        let id = +e.id.substring(4),
+            comment = element("rev-comment-"+id),
+            obsah = element("rev-obsah-"+id),
+            aktualnost = element("rev-aktualnost-"+id),
+            jazyk = element("rev-jazyk-"+id),
+            btn = element("rev-save-"+id);
+        let data = {
+            id: id,
+            comment: comment,
+            obsah: obsah,
+            aktualnost: aktualnost,
+            jazyk: jazyk,
+            c_comment: comment.value,
+            c_obsah: obsah.value,
+            c_aktualnost: aktualnost.value,
+            c_jazyk: jazyk.value,
+            btn: btn
+        };
+        on(comment,"input",onInput.bind(data));
+        on(obsah,"input",onInput.bind(data));
+        on(aktualnost,"input",onInput.bind(data));
+        on(jazyk,"input",onInput.bind(data));
+        on(btn,"click",onSave.bind(data));
+    }
+}
