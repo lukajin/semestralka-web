@@ -60,7 +60,7 @@ class DatabaseConnection {
         if($cond){
             $sql .= ' where ';
             foreach($cond as $key => $value){
-                $param = preg_replace("/!<>/","",
+                $param = preg_replace("/[<>!]/","",
                     str_replace(".", "_", $key));
                 $params[$param] = $value;
                 $sql .= "$key=:$param and ";

@@ -87,7 +87,7 @@ else if(element("password-change")){ // profile.twig
         updateUser("role",newRole,function(response){
             element("profile-role-result").innerHTML = response.success ?
                 (currentRole=newRole,
-                    "Role byla změněna na "+ev.target[newRole].innerHTML+"."
+                    "Role byla změněna na "+ev.target[newRole+4-ev.target.length].innerHTML+"."
                 ) : "Při změně role došlo k chybě.";
         });
     });
@@ -132,6 +132,8 @@ else if(element("post-update")){ // post.twig, úprava příspěvku (ne nový)
         let newTitle = elementValue(title),
             newAbstract = elementValue(abstract);
         if(newTitle === currentTitle && newAbstract === currentAbstract){
+            updateButton.disabled = true;
+            updateResponse.innerHTML = "Změny uloženy.";
             return;
         }
         ajax({
