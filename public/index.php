@@ -5,7 +5,7 @@ ini_set('display_errors', 'On');
 require_once '../config.php';
 require_once '../vendor/autoload.php'; // Composer - Twig
 spl_autoload_register(function ($class_name) {
-    include APP_DIR.$class_name.'.php';
+    include APP_DIR.'model/'.$class_name.'.php';
 });
 
 // Pro odchycení útoků využívajících speciální znaky v názvu požadované stránky
