@@ -32,7 +32,7 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
 * `app` - PHP skripty aplikace
 	* `actions` - skripty akcí (přihlášení, jakékoli změny dat v databázi)
 	* `pages` - dodatečné akce související se zobrazením konkrétních stránek
-	* Třídy zprostředkující práci s databází a session
+	* `model` - třídy zprostředkující práci s databází a session
 * `dbsetup` - skripty pro instalaci databáze
 * `docker` - skript pro automatické zprovoznění aplikace pomocí Dockeru (viz dále)
 * `pages` - šablony stránek (Twig)
