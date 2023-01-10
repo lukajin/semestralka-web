@@ -4,7 +4,11 @@ FROM alpine:3.17
 RUN <<EOF
 # install Apache, MariaDB, PHP + Composer
 apk --no-cache add mariadb mariadb-client apache2 php81-apache2 \
-php81-pdo_mysql php81-session php81-intl php81-opcache composer
+php81-pdo_mysql php81-session php81-intl php81-opcache composer tzdata
+
+# set time zone; no other time zone data are necessary
+cp /usr/share/zoneinfo/Europe/Prague /etc/localtime
+apk del tzdata
 
 # fancy shell prompt like root@<container-id>:/$ instead of just '/ #' (run 'sh -l')
 cat <<EOI >/etc/profile.d/prompt.sh
@@ -35,11 +39,6 @@ mkdir -p /run/mysqld
 chown mysql /run/mysqld
 chown apache /var/log/apache2 /run/apache2
 
-if test -d /web/public/uploads
-then
-    chown -R apache /web/public/uploads
-fi
-
 # create a script that starts everything up when the container is started
 cat <<EOI >/entry.sh
 #!/bin/sh
@@ -52,6 +51,10 @@ then
     then
         cd /web
         composer --no-cache install
+    fi
+    if test -d /web/public/uploads
+    then
+        chown -R apache /web/public/uploads
     fi
     while ! mysqladmin ping --silent
     do
