@@ -15,7 +15,8 @@ v souboru [`zadani.md`](zadani.md). Původní znění je (po přihlášení) k d
     - [X] Autor - Moje příspěvky
     - [X] Autor - Vytvoření/úprava příspěvku
     - [ ] Recenzent - Recenze
-    - [ ] Admin - Schvalování příspěvků
+    - [X] Admin - Přidávání/odstranění recenzentů příspěvku
+    - [X] Admin - Schvalování příspěvků
     - [X] Admin - Správa uživatelů
     - [X] Registrace uživatele
     - [X] Úprava profilu uživatele

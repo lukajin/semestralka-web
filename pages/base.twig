@@ -37,10 +37,10 @@
         {{ _self.navlink(current_page,'posts','Příspěvky') }}
         {% if user %}
           {% if user.roleid < 2 %}
-            {{ _self.navlink(current_page,'approve','Ke schválení') }}
+            {{ _self.navlink(current_page,'myposts','Všechny příspěvky') }}
             {{ _self.navlink(current_page,'users','Uživatelé') }}
           {% elseif user.roleid == 2 %}
-            {{ _self.navlink(current_page,'review','Moje recenze') }}
+            {{ _self.navlink(current_page,'myposts','Moje recenze') }}
           {% else %}
             {{ _self.navlink(current_page,'myposts','Moje příspěvky') }}
           {% endif %}

@@ -39,7 +39,8 @@ class DatabaseConnection {
      * @param array $cond Podmínky pro výběr záznamů (klauzule 'where'),
      * kde název sloupce je klíč pole (tj. např ["cislo" => 10]).
      * Všechny podmínky musí být splněny současně, disjunkce není podporována.
-     * Omezení nerovností (např. id>=10) tento parametr rovněž neumožňuje.
+     * Přidáním znaku '!', '<', nebo '>' bezprostředně před konec řetězce klíče
+     * lze vytvořit nerovnosti '!=', '<=', resp '>=' (za znakem následuje '=').
      * Předané hodnoty jsou chráněny proti SQL Injection, názvy sloupců ale ne.
      * Je-li tento parametr použit, nesmí se ve vlastním SQL dotazu (1. parametr)
      * vyskytovat klauzule 'where' ani nesmí být SQL dotaz ukončen středníkem.
@@ -59,9 +60,10 @@ class DatabaseConnection {
         if($cond){
             $sql .= ' where ';
             foreach($cond as $key => $value){
-                $param = str_replace(".", "_", $key);
+                $param = preg_replace("/!<>/","",
+                    str_replace(".", "_", $key));
                 $params[$param] = $value;
-                $sql .= "$key = :$param and ";
+                $sql .= "$key=:$param and ";
             }
             $q = $this->pdo->prepare(
                 // odstranit poslední "and" přidané výše, včetně mezer kolem

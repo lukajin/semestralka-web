@@ -80,6 +80,11 @@ class Database{
         return (isset($id) && !empty($res)) ? $res[0] : $res;
     }
 
+    /** Vrátí seznam recenzentů */
+    public function get_reviewers(){
+        return $this->db->query("select id,jmeno from uzivatel where role=2;");
+    }
+
     /**
      * Upraví informaci o daném uživateli
      * @param number $id ID cílového uživatele
@@ -104,6 +109,25 @@ class Database{
     public function get_author_posts($id){
         return $this->db->query("select id, nazev, abstrakt, zmenen, soubor, stav
         from prispevek",['autor'=>$id]);
+    }
+
+    /**
+     * Vrátí seznam všech příspěvků (pro administrátory)
+     * @return array|false Pole příspěvků nebo false při chybě.
+     */
+    public function get_posts(){
+        return $this->db->query("select prispevek.id, jmeno, nazev, abstrakt, zmenen, soubor, stav
+        from prispevek left join uzivatel on autor = uzivatel.id");
+    }
+
+    /**
+     * Vrátí seznam všech přiřazených recenzentů a jejich recenzí (pro administrátory)
+     * @return array|false Pole příspěvků nebo false při chybě.
+     */
+    public function get_reviews(){
+        return $this->db->query("select prispevek, recenzent, jmeno, datum,
+            h_obsah, h_aktualnost, h_jazyk, komentar
+        from recenze left join uzivatel on recenzent=uzivatel.id");
     }
 
     /**
@@ -135,7 +159,7 @@ class Database{
      */
     public function update_post($id, $author, $title, $abstract, $filename){
         if(!$title && !$abstract && !$filename) return true;
-        $sql = "update prispevek set";
+        $sql = "update prispevek set zmenen=null, stav='C',";
         $values = [];
         if(isset($title)){
             $sql .= " nazev=:nazev,";
@@ -150,7 +174,8 @@ class Database{
             $values["soubor"]=$filename;
         }
         $sql = substr($sql, 0, strlen($sql) - 1);
-        return false !== $this->db->query($sql,["id"=>$id,"autor"=>$author],$values);
+        return false !== $this->db->query($sql,
+                ["id"=>$id,"autor"=>$author,"stav!"=>'A'],$values);
     }
 
     /**
@@ -174,5 +199,23 @@ class Database{
         return $this->db->query("delete from prispevek",
             isset($author) ? ['id'=>$id,'autor'=>$author] : ['id'=>$id]
         );
+    }
+
+    public function update_post_status($id, $status){
+        return false !== $this->db->query("update prispevek set stav=:stav",
+            ['id'=>$id],['stav'=>$status]);
+    }
+
+    public function post_add_review($id, $reviewer){
+        return false !== $this->db->insert("recenze",[
+            'prispevek'=>$id,
+            'recenzent'=>$reviewer,
+            'datum'=>'0000-00-00'
+        ]);
+    }
+
+    public function post_rm_review($id, $reviewer){
+        return false !== $this->db->query("delete from recenze",
+            ['prispevek'=>$id, 'recenzent'=>$reviewer]);
     }
 }

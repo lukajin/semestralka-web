@@ -1,7 +1,7 @@
 use web;
 
 create table role (
-    id smallint primary key,
+    id tinyint primary key,
     nazev varchar(20) not null
 );
 insert into role (id, nazev) values
@@ -11,7 +11,7 @@ insert into role (id, nazev) values
 (3, 'Autor');
 create table uzivatel (
     id integer primary key auto_increment,
-    role smallint not null default 3,
+    role tinyint not null default 3,
     jmeno varchar(64),
     login varchar(32) not null unique,
     heslo char(60),
@@ -29,12 +29,17 @@ create table prispevek (
     zmenen timestamp not null,
     stav char(1) not null default 'C', -- Ceka/Akceptovan/Zamitnut
     constraint ck_prispevek_stav check (stav in ('C','A','Z')),
-    constraint fk_prispevek_autor foreign key (autor) references uzivatel(id)
+    constraint fk_prispevek_autor foreign key (autor) references uzivatel(id) on delete cascade
 );
 create table recenze (
     prispevek integer,
     recenzent integer,
+    datum timestamp,
+    h_obsah tinyint,
+    h_aktualnost tinyint,
+    h_jazyk tinyint,
+    komentar text,
     constraint pk_recenze primary key (prispevek, recenzent),
-    constraint fk_recenze_prispevek foreign key (prispevek) references prispevek(id),
-    constraint fk_recenze_recenzent foreign key (recenzent) references uzivatel(id)
+    constraint fk_recenze_prispevek foreign key (prispevek) references prispevek(id) on delete cascade,
+    constraint fk_recenze_recenzent foreign key (recenzent) references uzivatel(id) on delete cascade
 );

@@ -1,26 +1,122 @@
 {% extends "base.twig" %}
 
+{% macro post_status(id, status, text, color) %}
+    <form action="?p=myposts" method="post">
+        <input type="hidden" name="a" value="post_status">
+        <input type="hidden" name="id" value="{{ id }}">
+        <input type="hidden" name="status" value="{{ status }}">
+        <input type="submit"{{color ? (' class="btn btn-sm btn-'~color~'"')|raw : '' }} value="{{text}}">
+    </form>
+{% endmacro %}
+
 {% block title %}Moje příspěvky{% endblock %}
 
 {% block content %}
-<h1>Moje příspěvky</h1>
+<h1 id="posts-{{ user.roleid <=1 ? '1' : user.roleid }}">{{ user.roleid <= 1
+    ? 'Všechny příspěvky'
+    : user.roleid == 2
+    ? 'Příspěvky k recenzi'
+    : 'Moje příspěvky'
+}}</h1>
+{% if user.roleid == 3 %}
 <a href="?p=post" role="button" class="btn btn-sm btn-outline-success">Přidat příspěvek</a>
+{% endif %}
 {% for p in data %}
-    <div class="mt-3"><strong><u>{{p.nazev}}</u></strong></div>
-    <div>{{p.abstrakt ?: '<em>(Abstrakt nevyplněn)</em>'|raw}}</div>
-    <div><label>Poslední úprava:</label> {{p.zmenen}}</div>
+    <div class="mt-3"><strong><u>{{p.nazev}}</u></strong>
+        <span class="text-muted">&mdash;{{ user.roleid != 3 ? p.jmeno~',' : '' }}
+            {{p.stav == 'A' ? 'akceptováno' : 'změněno'}} {{ p.zmenen }}
+        </span>
+    </div>
+    <div>{{p.abstrakt ?: '<em class="text-muted">(Abstrakt nevyplněn)</em>'|raw}}</div>
     {% if p.soubor %}
-    <div><label>Soubor:</label> <a href="uploads/{{p.soubor}}">Stáhnout</a></div>
+        <div><a href="uploads/{{p.soubor}}">Stáhnout PDF</a></div>
     {% endif %}
-    <div><label>Stav:</label> {{p.stav=='A'
-        ? 'Akceptován'
-        : p.stav=='Z'
-        ? 'Zamítnut'
-        : 'Čeká na posouzení'}}</div>
+    {% if p.stav != 'A' %}
+    <div><label>Stav:</label> {{ p.stav=='Z' ? 'Zamítnut' : 'Čeká na posouzení'}}</div>
+    {% if user.roleid == 3 %}
     <form action="/" method="get">
         <input type="hidden" name="p" value="post">
         <input type="hidden" name="id" value="{{p.id}}">
         <input type="submit" value="Upravit">
     </form>
+    {% endif %}
+    {% endif %}
+    {% if user.roleid <= 1 %}
+        {% if p.recenze|length %}
+        <div class="table-responsive">
+            <table class="table table-hover table-sm">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Datum</th>
+                    <th>Obsah</th>
+                    <th>Aktuálnost</th>
+                    <th>Jazyk</th>
+                    <th>Celkem</th>
+                    <th>Odstranit</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for r in p.recenze %}
+                    <tr>
+                        <td>
+                            <strong>{{r.jmeno}}</strong>
+                            {% if r.komentar %}
+                                <span title="Komentář recenzenta: {{ r.komentar }}">
+                                    {# Ikona: https://icons.getbootstrap.com/icons/chat-left-text/ #}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text" viewBox="0 0 16 16">
+                                      <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                      <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                        </td>
+                        {% if r.datum %}
+                            <td>{{r.datum}}</td>
+                            <td><strong>{{r.h_obsah}}</strong>/10</td>
+                            <td><strong>{{r.h_aktualnost}}</strong>/10</td>
+                            <td><strong>{{r.h_jazyk}}</strong>/10</td>
+                            <td><strong>{{r.h_celkem}}</strong>/10</td>
+                        {% else %}
+                            <td colspan="5">Zatím nehodnoceno</td>
+                        {% endif %}
+                        <td>
+                            <form action="?p=myposts" method="post">
+                                <input type="hidden" name="a" value="post_add_review">
+                                <input type="hidden" name="action" value="rm">
+                                <input type="hidden" name="id" value="{{ p.id }}">
+                                <input type="hidden" name="user" value="{{ r.recenzent }}">
+                                <input type="submit" class="btn btn-danger btn-sm" value="Odstranit">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if p.recenzenti|length %}
+            <div class="d-flex flex-row">
+                <form class="d-flex flex-row" action="?p=myposts" method="post">
+                    <input type="hidden" name="a" value="post_add_review">
+                    <input type="hidden" name="id" value="{{ p.id }}">
+                    <label for="revadd-{{ p.id }}">Přidat recenzenta:</label>
+                    <select id="revadd-{{ p.id }}" name="user">
+                        {% for r in p.recenzenti %}
+                            <option value="{{ r.id }}">{{ r.jmeno }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="Přidat">
+                </form>
+                {% if p.stav != 'A' %}
+                    {{ _self.post_status(p.id, 'A', 'Schválit příspěvek', 'success') }}
+                {% if p.stav == 'Z' %}
+                    {{ _self.post_status(p.id, 'C', 'Znovu posoudit') }}
+                {% else %}
+                    {{ _self.post_status(p.id, 'Z', 'Zamítnout příspěvek', 'danger') }}
+                {% endif %}{% endif %}
+            </div>
+        {% endif %}
+    {% endif %}
 {% endfor %}
 {% endblock %}
