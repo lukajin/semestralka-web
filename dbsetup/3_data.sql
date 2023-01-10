@@ -11,7 +11,7 @@ insert into uzivatel (login, heslo, jmeno, role) values
 
 insert into uzivatel (login, heslo, jmeno, role, povolen) values
 ('slouj', '$2y$10$Jb0T8z0gi7fnXGs30K2IWORxL640ejzuHo3/55fcMugNOY88bAciG', 'Jiří Slouka', 3, 'N'),
-('vycitalova', '$2y$10$mYByy9sjCP4JSDwKFPNFVesw9IGJ/Dw55MqD4kzZffhSUd8pVhwku', 'Milena Vyčítalová', 1, 'N');
+('vycitalova', '$2y$10$mYByy9sjCP4JSDwKFPNFVesw9IGJ/Dw55MqD4kzZffhSUd8pVhwku', 'Milena Vyčítalová', 2, 'N');
 
 insert into prispevek (autor, nazev, zmenen, stav, soubor, abstrakt) values
 (5,'Možnosti odstranění či redukce odpadu v moři','2022-06-10 21:25:05','A', '1_Možnosti odstranění či redukce odpadu v moři.pdf', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Curabitur sagittis hendrerit ante. Etiam due, fermentum vitae, sagittis id, malesuada in, quam. Nullam at arcu a est sollicitudin euismod. Duis ante orci, molestie vitae vehicula venenatis, tincidunt ac pede. Fusce suscipit libero eget elit. Etiam posuere lacus quis dolor.'),
@@ -19,3 +19,12 @@ insert into prispevek (autor, nazev, zmenen, stav, soubor, abstrakt) values
 (8,'Ekologické projekty a jejich (ne)úspěchy','2022-10-07 18:22:40', 'Z', '3_Pseudoekologie.pdf', 'lol'),
 (4,'Elektrické vozy: současnost a budoucnost','2022-11-20 22:46:35', 'C', '4_Elektroauta.pdf', 'Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Ut tempus purus at lorem. Donec iaculis gravida nulla. Fusce consectetuer risus a nunc. Quisque tincidunt scelerisque libero. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. '),
 (5,'Revoluční metody recyklace s využitím bakterií','2022-11-26 10:26:12','C', null, null);
+
+insert into recenze (prispevek, recenzent, datum, h_obsah, h_aktualnost, h_jazyk, komentar) values
+(1,6,'2022-05-19 17:16:12',5,8,9,null),
+(1,7,'2022-06-09 11:46:19',8,8,8,'Tohle je velmi důležité.'),
+(1,9,'2022-06-04 14:32:50',4,7,4,'Autor nepůsobí přesvědčivě.'),
+(2,7,'2022-07-31 14:27:13',7,6,3,null),
+(2,9,0,0,0,0,null),
+(3,7,'2022-07-31 13:23:12',3,4,0,'Odpad'),
+(4,6,0,0,0,0,null);
